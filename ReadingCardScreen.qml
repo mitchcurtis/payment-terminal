@@ -2,10 +2,8 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.0
 import Qt.labs.controls 1.0
 
-Item {
+Screen {
     id: root
-
-    property var customerData
 
     Timer {
         running: true

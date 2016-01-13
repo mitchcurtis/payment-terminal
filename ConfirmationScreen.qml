@@ -2,10 +2,8 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.0
 import Qt.labs.controls 1.0
 
-Item {
+Screen  {
     id: root
-
-    property var customerData
 
     TextMetrics {
         id: textMetrics
@@ -30,6 +28,7 @@ Item {
 
             Row {
                 spacing: textMetrics.width
+                anchors.horizontalCenter: parent.horizontalCenter
 
                 Label {
                     text: "Vehicle:"
@@ -47,6 +46,7 @@ Item {
 
             Row {
                 spacing: textMetrics.width
+                anchors.horizontalCenter: parent.horizontalCenter
 
                 Label {
                     text: "Amount paid:"
@@ -74,6 +74,7 @@ Item {
 
             Row {
                 spacing: textMetrics.width
+                anchors.horizontalCenter: parent.horizontalCenter
 
                 Label {
                     text: "Level:"
@@ -91,6 +92,7 @@ Item {
 
             Row {
                 spacing: textMetrics.width
+                anchors.horizontalCenter: parent.horizontalCenter
 
                 Label {
                     text: "Level:"

@@ -8,5 +8,6 @@
         <file>CardPromptScreen.qml</file>
         <file>ReadingCardScreen.qml</file>
         <file>ConfirmationScreen.qml</file>
+        <file>Screen.qml</file>
     </qresource>
 </RCC>
