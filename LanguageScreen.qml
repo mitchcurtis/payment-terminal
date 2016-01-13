@@ -3,6 +3,8 @@ import QtQuick.Layouts 1.0
 import Qt.labs.controls 1.0
 
 Item {
+    id: root
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -22,47 +24,69 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 178
 
-            RowLayout {
-                spacing: 18
+            Item {
+                implicitWidth: englishRowLayout.implicitWidth
+                implicitHeight: englishRowLayout.implicitHeight
 
-                Rectangle {
-                    width: 100
-                    height: 75
-                    color: "blue"
+                RowLayout {
+                    id: englishRowLayout
+                    spacing: 18
+
+                    Rectangle {
+                        width: 100
+                        height: 75
+                        color: "blue"
+                    }
+
+                    Rectangle {
+                        Layout.preferredWidth: 120
+                        Layout.preferredHeight: 50
+                        border.width: 1
+
+                        Label {
+                            text: "English"
+                            font.pixelSize: 24
+                            anchors.centerIn: parent
+                        }
+                    }
                 }
 
-                Rectangle {
-                    Layout.preferredWidth: 120
-                    Layout.preferredHeight: 50
-                    border.width: 1
-
-                    Label {
-                        text: "English"
-                        font.pixelSize: 24
-                        anchors.centerIn: parent
-                    }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: root.StackView.view.push("qrc:/PlateSelectionScreen.qml")
                 }
             }
 
-            RowLayout {
-                spacing: 18
 
-                Rectangle {
-                    width: 100
-                    height: 75
-                    color: "black"
+            Item {
+                implicitWidth: englishRowLayout.implicitWidth
+                implicitHeight: englishRowLayout.implicitHeight
+
+                RowLayout {
+                    spacing: 18
+
+                    Rectangle {
+                        width: 100
+                        height: 75
+                        color: "black"
+                    }
+
+                    Rectangle {
+                        Layout.preferredWidth: 120
+                        Layout.preferredHeight: 50
+                        border.width: 1
+
+                        Label {
+                            text: "Deutsch"
+                            font.pixelSize: 24
+                            anchors.centerIn: parent
+                        }
+                    }
                 }
 
-                Rectangle {
-                    Layout.preferredWidth: 120
-                    Layout.preferredHeight: 50
-                    border.width: 1
-
-                    Label {
-                        text: "Deutsch"
-                        font.pixelSize: 24
-                        anchors.centerIn: parent
-                    }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: root.StackView.view.push("qrc:/PlateSelectionScreen.qml")
                 }
             }
         }

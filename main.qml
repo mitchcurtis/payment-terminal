@@ -13,6 +13,10 @@ ApplicationWindow {
 
     StackView {
         anchors.fill: parent
+        anchors.leftMargin: 33
+        anchors.rightMargin: 33
+        anchors.topMargin: 20
+        anchors.bottomMargin: 20
         initialItem: LanguageScreen {}
     }
 }

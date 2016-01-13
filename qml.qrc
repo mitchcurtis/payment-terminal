@@ -2,5 +2,11 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>LanguageScreen.qml</file>
+        <file>PlateSelectionScreen.qml</file>
+        <file>PaymentSummaryScreen.qml</file>
+        <file>NavigationBar.qml</file>
+        <file>CardPromptScreen.qml</file>
+        <file>ReadingCardScreen.qml</file>
+        <file>ConfirmationScreen.qml</file>
     </qresource>
 </RCC>
