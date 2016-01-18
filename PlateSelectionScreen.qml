@@ -5,15 +5,16 @@ import Qt.labs.controls 1.0
 Screen {
     id: root
 
+    header: NavigationBar {
+        stackView: root.StackView.view
+    }
+
     ColumnLayout {
         anchors.fill: parent
 
-        NavigationBar {
-            stackView: root.StackView.view
-        }
-
         Label {
             text: "Select your license plate number:"
+            color: root.mediumTextColor
             font.pixelSize: 36
             anchors.left: parent.left
             anchors.leftMargin: 33
@@ -36,7 +37,9 @@ Screen {
                     Layout.fillWidth: true
                     Layout.preferredWidth: 200
                     Layout.preferredHeight: 80
-                    border.width: 1
+                    border.width: 2
+                    border.color: root.lightTextColor
+                    radius: 12
 
                     Text {
                         text: modelData

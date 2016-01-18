@@ -5,6 +5,8 @@ import Qt.labs.controls 1.0
 Screen  {
     id: root
 
+    header: LogoBar {}
+
     ColumnLayout {
         anchors.fill: parent
 

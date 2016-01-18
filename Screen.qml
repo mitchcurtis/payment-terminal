@@ -1,16 +1,16 @@
 import QtQuick 2.0
 import Qt.labs.controls 1.0
 
-Item {
-    default property alias content: child.data
+Page {
+    id: page
+
+    leftPadding: 33
+    rightPadding: 33
+    topPadding: 20
+    bottomPadding: 20
+
     property var customerData
 
-    Item {
-        id: child
-        anchors.fill: parent
-        anchors.leftMargin: 33
-        anchors.rightMargin: 33
-        anchors.topMargin: 20
-        anchors.bottomMargin: 20
-    }
+    property color lightTextColor: "#ccc"
+    property color mediumTextColor: "#444"
 }

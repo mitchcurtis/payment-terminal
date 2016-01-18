@@ -5,13 +5,13 @@ import Qt.labs.controls 1.0
 Screen {
     id: root
 
+    header: NavigationBar {
+        stackView: root.StackView.view
+    }
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
-
-        NavigationBar {
-            stackView: root.StackView.view
-        }
 
         ColumnLayout {
             Layout.leftMargin: 120

@@ -9,5 +9,6 @@
         <file>ReadingCardScreen.qml</file>
         <file>ConfirmationScreen.qml</file>
         <file>Screen.qml</file>
+        <file>LogoBar.qml</file>
     </qresource>
 </RCC>

@@ -5,61 +5,74 @@ import Qt.labs.controls 1.0
 Screen {
     id: root
 
+    header: NavigationBar {
+        stackView: root.StackView.view
+    }
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
 
-        NavigationBar {
-            stackView: root.StackView.view
-        }
-
         ColumnLayout {
             Layout.leftMargin: 120
-            Layout.topMargin: 65
+            Layout.topMargin: 60
             Layout.rightMargin: 28
-            Layout.bottomMargin: 16
-            spacing: 0
+            spacing: 25
 
-            Label {
-                text: "Pay for the vehicle"
-                font.pixelSize: 24
+            ColumnLayout {
+                spacing: 0
+
+                Label {
+                    text: "Pay for the vehicle:"
+                    color: root.mediumTextColor
+                    font.pixelSize: 24
+                }
+
+                Label {
+                    text: customerData.licensePlateNumber
+                    font.pixelSize: 48
+                    font.weight: Font.Normal
+                }
             }
 
-            Label {
-                text: customerData.licensePlateNumber
-                font.pixelSize: 48
-                font.weight: Font.Normal
+            ColumnLayout {
+                spacing: 0
+
+                Label {
+                    text: "Parking time"
+                    color: root.mediumTextColor
+                    font.pixelSize: 24
+                }
+
+                Label {
+                    text: "15:53 to 17:21 (1h 30m)"
+                    font.pixelSize: 24
+                    font.weight: Font.Normal
+                }
             }
 
-            Label {
-                text: "Parking time"
-                font.pixelSize: 24
-                Layout.topMargin: 38
-            }
+            ColumnLayout {
+                spacing: 0
 
-            Label {
-                text: "15:53 to 17:21 (1h 30m)"
-                font.pixelSize: 24
-                font.weight: Font.Normal
-            }
+                Label {
+                    text: "Amount to pay"
+                    color: root.mediumTextColor
+                    font.pixelSize: 24
+                }
 
-            Label {
-                text: "Amount to pay"
-                font.pixelSize: 24
-                Layout.topMargin: 38
-            }
-
-            Label {
-                text: customerData.paymentAmount
-                font.pixelSize: 48
-                font.weight: Font.Normal
+                Label {
+                    text: customerData.paymentAmount
+                    font.pixelSize: 48
+                    font.weight: Font.Normal
+                }
             }
 
             RowLayout {
-                Layout.topMargin: 10
+                spacing: 0
 
                 Label {
                     text: "We accept credit card payments only"
+                    color: "#80c342"
                     font.pixelSize: 24
                 }
 
@@ -68,11 +81,31 @@ Screen {
                 }
 
                 Button {
-                    text: "Pay Now"
-                    font.pixelSize: 36
-                    Layout.preferredWidth: 200
-                    Layout.preferredHeight: 80
+                    id: payButton
+
                     onClicked: root.StackView.view.push("qrc:/CardPromptScreen.qml", { customerData: root.customerData })
+
+                    label: Text {
+                        text: "Pay Now"
+                        font.pixelSize: 28
+                        font.weight: Font.Normal
+                        color: "#fff"
+                        x: payButton.leftPadding
+                        y: payButton.topPadding
+                        width: payButton.availableWidth
+                        height: payButton.availableHeight
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+                    background: Rectangle {
+                        implicitWidth: 160
+                        implicitHeight: 80
+                        radius: 12
+                        color: "#80c342"
+                        border.color: Qt.darker(color, 1.1)
+                        border.width: 2
+                    }
                 }
             }
         }

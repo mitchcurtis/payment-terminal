@@ -5,6 +5,8 @@ import Qt.labs.controls 1.0
 Screen {
     id: root
 
+    header: LogoBar {}
+
     Timer {
         running: true
         interval: 500
@@ -22,6 +24,7 @@ Screen {
 
     ColumnLayout {
         anchors.fill: parent
+        anchors.bottomMargin: 208
         spacing: 0
 
         Label {
