@@ -4,5 +4,9 @@
         <file>images/CPD-logo@2x.png</file>
         <file>images/Qt-logo.png</file>
         <file>images/Qt-logo@2x.png</file>
+        <file>images/German-flag.png</file>
+        <file>images/UK-flag.png</file>
+        <file>images/German-flag@2x.png</file>
+        <file>images/UK-flag@2x.png</file>
     </qresource>
 </RCC>

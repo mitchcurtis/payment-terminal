@@ -24,12 +24,12 @@ Screen {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.bottomMargin: 208
         spacing: 0
 
         Label {
             text: "Paying " + customerData.paymentAmount
             wrapMode: Label.Wrap
+            font.weight: Font.Normal
             font.pixelSize: 48
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
@@ -37,6 +37,7 @@ Screen {
 
         Label {
             text: "Reading your card..."
+            font.weight: Font.Normal
             font.pixelSize: 36
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
@@ -46,6 +47,7 @@ Screen {
             id: progressBar
             Layout.preferredWidth: 248
             Layout.preferredHeight: 30
+            Layout.fillHeight: true
             anchors.horizontalCenter: parent.horizontalCenter
 
             Behavior on value {

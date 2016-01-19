@@ -46,10 +46,8 @@ Screen  {
                     anchors.margins: 14
                     spacing: 18
 
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        color: "blue"
+                    Image {
+                        source: "qrc:/images/UK-flag.png"
                     }
 
                     Label {
@@ -81,10 +79,8 @@ Screen  {
                     anchors.margins: 14
                     spacing: 18
 
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        color: "red"
+                    Image {
+                        source: "qrc:/images/German-flag.png"
                     }
 
                     Label {

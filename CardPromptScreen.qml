@@ -14,24 +14,27 @@ Screen {
         spacing: 0
 
         ColumnLayout {
-            Layout.leftMargin: 120
-            Layout.rightMargin: 120
-            Layout.bottomMargin: 16
-            spacing: 70
-
             Label {
                 text: "Paying " + customerData.paymentAmount
+                color: root.mediumTextColor
                 wrapMode: Label.Wrap
-                font.pixelSize: 48
+                font.weight: Font.Normal
+                font.pixelSize: 60
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
             }
 
             Label {
                 text: "Please insert your credit card with the chip side up"
+                color: root.mediumTextColor
+                font.weight: Font.Normal
                 font.pixelSize: 36
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
+            }
+
+            Item {
+                Layout.preferredHeight: 40
             }
 
             Rectangle {
