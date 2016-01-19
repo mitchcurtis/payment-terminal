@@ -7,9 +7,10 @@ Item {
     height: 65
 
     property StackView stackView
+    readonly property color color: "#015289"
 
     Rectangle {
-        color: "#015289"
+        color: root.color
         anchors.fill: parent
     }
 

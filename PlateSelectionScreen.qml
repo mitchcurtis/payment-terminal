@@ -6,43 +6,41 @@ Screen {
     id: root
 
     header: NavigationBar {
+        id: navigationBar
         stackView: root.StackView.view
     }
 
     ColumnLayout {
         anchors.fill: parent
+        spacing: 80
 
         Label {
             text: "Select your license plate number:"
             color: root.mediumTextColor
-            font.pixelSize: 36
-            anchors.left: parent.left
-            anchors.leftMargin: 33
-            Layout.topMargin: 57
+            font.weight: Font.Normal
+            font.pixelSize: 48
+            anchors.horizontalCenter: parent.horizontalCenter
         }
 
         GridLayout {
             columns: 4
             rows: 2
-            Layout.topMargin: 100
-            Layout.bottomMargin: 100
-            Layout.leftMargin: 40
-            Layout.rightMargin: 61
-            columnSpacing: 29
-            rowSpacing: 40
+            columnSpacing: 20
+            rowSpacing: 23
 
             Repeater {
                 model: ["B-FB-4067", "A-DL-3227", "THG 495", "AS-46-01", "366 PD 8", "L-HJ-1037", "4927-AE-PA", "K-OL-0742"]
                 delegate: Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredWidth: 200
-                    Layout.preferredHeight: 80
+                    Layout.preferredHeight: 100
                     border.width: 2
-                    border.color: root.lightTextColor
+                    border.color: mouseArea.pressed ? navigationBar.color : root.lightTextColor
                     radius: 12
 
-                    Text {
+                    Label {
                         text: modelData
+                        font.weight: Font.Normal
                         font.pixelSize: 36
                         fontSizeMode: Text.Fit
                         horizontalAlignment: Text.AlignHCenter
@@ -52,6 +50,7 @@ Screen {
                     }
 
                     MouseArea {
+                        id: mouseArea
                         anchors.fill: parent
                         onClicked: {
                             var customerData = {
