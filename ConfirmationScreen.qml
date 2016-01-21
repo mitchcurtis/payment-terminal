@@ -16,7 +16,7 @@ Screen  {
     Timer {
         id: quitTimer
         running: true
-        interval: 5000
+        interval: 8000
         onTriggered: root.StackView.view.pop(null)
     }
 
@@ -137,5 +137,10 @@ Screen  {
                 }
             }
         }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: root.StackView.view.pop(null)
     }
 }
