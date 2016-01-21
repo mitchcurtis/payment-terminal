@@ -44,7 +44,7 @@ Screen {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 Label {
-                    text: "Illustration of how to insert the card"
+                    text: "Illustration of how to insert the card (click to continue)"
                     color: "white"
                     anchors.fill: parent
                     horizontalAlignment: Text.AlignHCenter
