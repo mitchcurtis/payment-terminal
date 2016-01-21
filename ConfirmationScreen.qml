@@ -13,6 +13,13 @@ Screen  {
         text: "e"
     }
 
+    Timer {
+        id: quitTimer
+        running: true
+        interval: 5000
+        onTriggered: root.StackView.view.pop(null)
+    }
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
