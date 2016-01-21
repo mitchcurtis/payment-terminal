@@ -43,13 +43,14 @@ Screen {
                 Layout.preferredHeight: 156
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                Text {
+                Label {
                     text: "Illustration of how to insert the card"
                     color: "white"
                     anchors.fill: parent
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     fontSizeMode: Text.Fit
+                    wrapMode: Text.Wrap
                 }
 
                 // TODO: remove
