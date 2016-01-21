@@ -28,6 +28,7 @@ Screen {
 
         Label {
             text: "Paying " + customerData.paymentAmount
+            color: root.mediumTextColor
             wrapMode: Label.Wrap
             font.weight: Font.Normal
             font.pixelSize: 48
@@ -37,6 +38,7 @@ Screen {
 
         Label {
             text: "Reading your card..."
+            color: root.mediumTextColor
             font.weight: Font.Normal
             font.pixelSize: 36
             Layout.fillWidth: true

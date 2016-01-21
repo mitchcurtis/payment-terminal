@@ -19,10 +19,16 @@ Screen  {
 
         Label {
             text: "Payment successful. Thank you!"
+            color: "#80c342"
             wrapMode: Label.Wrap
             font.pixelSize: 48
+            font.weight: Font.Normal
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
+        }
+
+        Item {
+            Layout.fillHeight: true
         }
 
         ColumnLayout {
@@ -34,15 +40,17 @@ Screen  {
 
                 Label {
                     text: "Vehicle:"
+                    color: root.mediumTextColor
                     wrapMode: Label.Wrap
-                    font.pixelSize: 36
+                    font.pixelSize: 29
+                    font.weight: Font.Normal
                 }
 
                 Label {
                     text: customerData.licensePlateNumber
                     wrapMode: Label.Wrap
-                    font.pixelSize: 36
-                    font.weight: Font.Normal
+                    font.pixelSize: 29
+                    font.weight: Font.DemiBold
                 }
             }
 
@@ -52,17 +60,23 @@ Screen  {
 
                 Label {
                     text: "Amount paid:"
+                    color: root.mediumTextColor
                     wrapMode: Label.Wrap
-                    font.pixelSize: 36
+                    font.pixelSize: 29
+                    font.weight: Font.Normal
                 }
 
                 Label {
                     text: customerData.paymentAmount
                     wrapMode: Label.Wrap
-                    font.pixelSize: 36
-                    font.weight: Font.Normal
+                    font.pixelSize: 29
+                    font.weight: Font.DemiBold
                 }
             }
+        }
+
+        Item {
+            Layout.fillHeight: true
         }
 
         ColumnLayout {
@@ -70,8 +84,10 @@ Screen  {
 
             Label {
                 text: "You can find your vehicle on:"
+                color: root.mediumTextColor
                 wrapMode: Label.Wrap
-                font.pixelSize: 36
+                font.pixelSize: 29
+                font.weight: Font.Normal
             }
 
             Row {
@@ -80,15 +96,17 @@ Screen  {
 
                 Label {
                     text: "Level:"
+                    color: root.mediumTextColor
                     wrapMode: Label.Wrap
-                    font.pixelSize: 36
+                    font.pixelSize: 29
+                    font.weight: Font.Normal
                 }
 
                 Label {
                     text: customerData.lotLevel
                     wrapMode: Label.Wrap
-                    font.pixelSize: 36
-                    font.weight: Font.Normal
+                    font.pixelSize: 29
+                    font.weight: Font.DemiBold
                 }
             }
 
@@ -97,16 +115,18 @@ Screen  {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 Label {
-                    text: "Level:"
+                    text: "Row number:"
+                    color: root.mediumTextColor
                     wrapMode: Label.Wrap
-                    font.pixelSize: 36
+                    font.pixelSize: 29
+                    font.weight: Font.Normal
                 }
 
                 Label {
                     text: customerData.lotRow
                     wrapMode: Label.Wrap
-                    font.pixelSize: 36
-                    font.weight: Font.Normal
+                    font.pixelSize: 29
+                    font.weight: Font.DemiBold
                 }
             }
         }
