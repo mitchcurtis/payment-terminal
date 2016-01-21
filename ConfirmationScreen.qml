@@ -24,10 +24,10 @@ Screen  {
         anchors.fill: parent
         spacing: 0
 
-        Label {
+        Text {
             text: "Payment successful. Thank you!"
             color: "#80c342"
-            wrapMode: Label.Wrap
+            wrapMode: Text.Wrap
             font.pixelSize: 48
             font.weight: Font.Normal
             Layout.fillWidth: true
@@ -45,17 +45,17 @@ Screen  {
                 spacing: textMetrics.width
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                Label {
+                Text {
                     text: "Vehicle:"
                     color: root.mediumTextColor
-                    wrapMode: Label.Wrap
+                    wrapMode: Text.Wrap
                     font.pixelSize: 29
                     font.weight: Font.Normal
                 }
 
-                Label {
+                Text {
                     text: customerData.licensePlateNumber
-                    wrapMode: Label.Wrap
+                    wrapMode: Text.Wrap
                     font.pixelSize: 29
                     font.weight: Font.DemiBold
                 }
@@ -65,17 +65,17 @@ Screen  {
                 spacing: textMetrics.width
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                Label {
+                Text {
                     text: "Amount paid:"
                     color: root.mediumTextColor
-                    wrapMode: Label.Wrap
+                    wrapMode: Text.Wrap
                     font.pixelSize: 29
                     font.weight: Font.Normal
                 }
 
-                Label {
+                Text {
                     text: customerData.paymentAmount
-                    wrapMode: Label.Wrap
+                    wrapMode: Text.Wrap
                     font.pixelSize: 29
                     font.weight: Font.DemiBold
                 }
@@ -89,10 +89,10 @@ Screen  {
         ColumnLayout {
             anchors.horizontalCenter: parent.horizontalCenter
 
-            Label {
+            Text {
                 text: "You can find your vehicle on:"
                 color: root.mediumTextColor
-                wrapMode: Label.Wrap
+                wrapMode: Text.Wrap
                 font.pixelSize: 29
                 font.weight: Font.Normal
             }
@@ -101,17 +101,17 @@ Screen  {
                 spacing: textMetrics.width
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                Label {
+                Text {
                     text: "Level:"
                     color: root.mediumTextColor
-                    wrapMode: Label.Wrap
+                    wrapMode: Text.Wrap
                     font.pixelSize: 29
                     font.weight: Font.Normal
                 }
 
-                Label {
+                Text {
                     text: customerData.lotLevel
-                    wrapMode: Label.Wrap
+                    wrapMode: Text.Wrap
                     font.pixelSize: 29
                     font.weight: Font.DemiBold
                 }
@@ -121,17 +121,17 @@ Screen  {
                 spacing: textMetrics.width
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                Label {
+                Text {
                     text: "Row number:"
                     color: root.mediumTextColor
-                    wrapMode: Label.Wrap
+                    wrapMode: Text.Wrap
                     font.pixelSize: 29
                     font.weight: Font.Normal
                 }
 
-                Label {
+                Text {
                     text: customerData.lotRow
-                    wrapMode: Label.Wrap
+                    wrapMode: Text.Wrap
                     font.pixelSize: 29
                     font.weight: Font.DemiBold
                 }

@@ -14,17 +14,17 @@ Screen {
         spacing: 0
 
         ColumnLayout {
-            Label {
+            Text {
                 text: "Paying " + customerData.paymentAmount
                 color: root.mediumTextColor
-                wrapMode: Label.Wrap
+                wrapMode: Text.Wrap
                 font.weight: Font.Normal
                 font.pixelSize: 60
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Label {
+            Text {
                 text: "Please insert your credit card with the chip side up"
                 color: root.mediumTextColor
                 font.weight: Font.Normal
@@ -43,7 +43,7 @@ Screen {
                 Layout.preferredHeight: 156
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                Label {
+                Text {
                     text: "Illustration of how to insert the card (click to continue)"
                     color: "white"
                     anchors.fill: parent

@@ -14,7 +14,7 @@ Screen  {
     ColumnLayout {
         anchors.fill: parent
 
-        Label {
+        Text {
             text: "Pay your parking fee here"
             color: root.mediumTextColor
             font.weight: Font.Normal
@@ -22,7 +22,7 @@ Screen  {
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        Label {
+        Text {
             text: "Select Language"
             color: root.mediumTextColor
             font.weight: Font.Normal
@@ -50,7 +50,7 @@ Screen  {
                         source: "qrc:/images/UK-flag.png"
                     }
 
-                    Label {
+                    Text {
                         text: "English"
                         color: root.mediumTextColor
                         font.weight: Font.Normal
@@ -83,7 +83,7 @@ Screen  {
                         source: "qrc:/images/German-flag.png"
                     }
 
-                    Label {
+                    Text {
                         text: "Deutsch"
                         color: root.mediumTextColor
                         font.weight: Font.Normal

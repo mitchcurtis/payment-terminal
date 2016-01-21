@@ -26,17 +26,17 @@ Screen {
         anchors.fill: parent
         spacing: 0
 
-        Label {
+        Text {
             text: "Paying " + customerData.paymentAmount
             color: root.mediumTextColor
-            wrapMode: Label.Wrap
+            wrapMode: Text.Wrap
             font.weight: Font.Normal
             font.pixelSize: 48
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
         }
 
-        Label {
+        Text {
             text: "Reading your card..."
             color: root.mediumTextColor
             font.weight: Font.Normal

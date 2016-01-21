@@ -14,7 +14,7 @@ Screen {
         anchors.fill: parent
         spacing: 80
 
-        Label {
+        Text {
             text: "Select your license plate number:"
             color: root.mediumTextColor
             font.weight: Font.Normal
@@ -38,7 +38,7 @@ Screen {
                     border.color: mouseArea.pressed ? navigationBar.color : root.lightTextColor
                     radius: 12
 
-                    Label {
+                    Text {
                         text: modelData
                         font.weight: Font.Normal
                         font.pixelSize: 36

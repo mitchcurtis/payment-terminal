@@ -19,13 +19,13 @@ Screen {
             ColumnLayout {
                 spacing: 0
 
-                Label {
+                Text {
                     text: "Pay for the vehicle:"
                     color: root.mediumTextColor
                     font.pixelSize: 24
                 }
 
-                Label {
+                Text {
                     text: customerData.licensePlateNumber
                     font.pixelSize: 48
                     font.weight: Font.Normal
@@ -35,13 +35,13 @@ Screen {
             ColumnLayout {
                 spacing: 0
 
-                Label {
+                Text {
                     text: "Parking time"
                     color: root.mediumTextColor
                     font.pixelSize: 24
                 }
 
-                Label {
+                Text {
                     text: "15:53 to 17:21 (1h 30m)"
                     font.pixelSize: 24
                     font.weight: Font.Normal
@@ -51,20 +51,20 @@ Screen {
             ColumnLayout {
                 spacing: 0
 
-                Label {
+                Text {
                     text: "Amount to pay"
                     color: root.mediumTextColor
                     font.pixelSize: 24
                 }
 
-                Label {
+                Text {
                     text: customerData.paymentAmount
                     font.pixelSize: 48
                     font.weight: Font.Normal
                 }
             }
 
-            Label {
+            Text {
                 text: "We accept credit card payments only"
                 color: "#80c342"
                 font.pixelSize: 24
