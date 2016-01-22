@@ -8,6 +8,7 @@ Item {
 
     property StackView stackView
     readonly property color color: "#015289"
+    property bool backButtonEnabled: true
 
     Rectangle {
         color: root.color
@@ -22,6 +23,7 @@ Item {
         Button {
             id: backButton
             Layout.fillHeight: true
+            visible: backButtonEnabled
             onClicked: stackView.pop()
 
             background: Item {
@@ -46,6 +48,7 @@ Item {
             width: 1
             Layout.fillHeight: true
             color: "#4982aa"
+            visible: backButtonEnabled
         }
 
         Item {

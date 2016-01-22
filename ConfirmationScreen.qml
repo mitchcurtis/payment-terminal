@@ -5,7 +5,10 @@ import Qt.labs.controls 1.0
 Screen  {
     id: root
 
-    header: LogoBar {}
+    header: NavigationBar {
+        backButtonEnabled: false
+        stackView: root.StackView.view
+    }
 
     TextMetrics {
         id: textMetrics
@@ -16,7 +19,7 @@ Screen  {
     Timer {
         id: quitTimer
         running: true
-        interval: 8000
+        interval: 10000
         onTriggered: root.StackView.view.pop(null)
     }
 
