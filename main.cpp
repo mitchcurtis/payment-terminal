@@ -1,6 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QFontDatabase>
+#include <QQmlContext>
+
+#include "licenseplatemodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +17,10 @@ int main(int argc, char *argv[])
     font.setWeight(QFont::Light);
     app.setFont(font);
 
+    LicensePlateModel licensePlateModel;
+
     QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("licensePlateModel", &licensePlateModel);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     return app.exec();

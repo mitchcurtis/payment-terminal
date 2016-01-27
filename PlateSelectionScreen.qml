@@ -29,7 +29,7 @@ Screen {
             rowSpacing: 23
 
             Repeater {
-                model: ["B-FB-4067", "A-DL-3227", "THG 495", "AS-46-01", "366 PD 8", "L-HJ-1037", "4927-AE-PA", "K-OL-0742"]
+                model: licensePlateModel
                 delegate: Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredWidth: 200
@@ -39,7 +39,7 @@ Screen {
                     radius: 12
 
                     Text {
-                        text: modelData
+                        text: display
                         font.weight: Font.Normal
                         font.pixelSize: 36
                         fontSizeMode: Text.Fit

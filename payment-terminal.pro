@@ -3,7 +3,11 @@ TEMPLATE = app
 QT += qml quick
 CONFIG += c++11
 
-SOURCES += main.cpp
+HEADERS += \
+    licenseplatemodel.h
+
+SOURCES += main.cpp \
+    licenseplatemodel.cpp
 
 RESOURCES += qml.qrc \
     fonts.qrc \
