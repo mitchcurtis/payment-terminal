@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     font.setWeight(QFont::Light);
     app.setFont(font);
 
-    LicensePlateModel licensePlateModel;
+    LicensePlateModel licensePlateModel(app.arguments().contains("-offline"));
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("licensePlateModel", &licensePlateModel);
