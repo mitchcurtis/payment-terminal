@@ -1,6 +1,6 @@
+#include <QFont>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QFontDatabase>
 #include <QQmlContext>
 
 #include "licenseplatemodel.h"
@@ -14,9 +14,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    QFontDatabase::addApplicationFont(":/fonts/OpenSans-Regular.ttf");
-
-    QFont font("Open Sans");
+    QFont font("Arial");
     font.setWeight(QFont::Light);
     app.setFont(font);
 

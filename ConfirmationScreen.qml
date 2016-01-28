@@ -5,6 +5,8 @@ import Qt.labs.controls 1.0
 Screen  {
     id: root
 
+    readonly property int labelSpacing: textMetrics.width * 0.6
+
     header: NavigationBar {
         backButtonEnabled: false
         stackView: root.StackView.view
@@ -31,112 +33,73 @@ Screen  {
             text: "Payment successful. Thank you!"
             color: "#80c342"
             wrapMode: Text.Wrap
-            font.pixelSize: 48
-            font.weight: Font.Normal
+            font.pixelSize: 44
+            font.weight: Font.Bold
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
         }
 
-        Item {
-            Layout.fillHeight: true
-        }
-
         ColumnLayout {
             anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 20
 
             Row {
-                spacing: textMetrics.width
+                spacing: labelSpacing
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 Text {
                     text: "Vehicle:"
                     color: root.mediumTextColor
                     wrapMode: Text.Wrap
-                    font.pixelSize: 29
+                    font.pixelSize: 30
                     font.weight: Font.Normal
                 }
 
                 Text {
                     text: customerData.licensePlateNumber
                     wrapMode: Text.Wrap
-                    font.pixelSize: 29
-                    font.weight: Font.DemiBold
+                    font.pixelSize: 30
+                    font.weight: Font.Bold
                 }
             }
 
             Row {
-                spacing: textMetrics.width
+                spacing: labelSpacing
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 Text {
                     text: "Amount paid:"
                     color: root.mediumTextColor
                     wrapMode: Text.Wrap
-                    font.pixelSize: 29
+                    font.pixelSize: 30
                     font.weight: Font.Normal
                 }
 
                 Text {
                     text: customerData.paymentAmount
                     wrapMode: Text.Wrap
-                    font.pixelSize: 29
-                    font.weight: Font.DemiBold
-                }
-            }
-        }
-
-        Item {
-            Layout.fillHeight: true
-        }
-
-        ColumnLayout {
-            anchors.horizontalCenter: parent.horizontalCenter
-
-            Text {
-                text: "You can find your vehicle on:"
-                color: root.mediumTextColor
-                wrapMode: Text.Wrap
-                font.pixelSize: 29
-                font.weight: Font.Normal
-            }
-
-            Row {
-                spacing: textMetrics.width
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                Text {
-                    text: "Level:"
-                    color: root.mediumTextColor
-                    wrapMode: Text.Wrap
-                    font.pixelSize: 29
-                    font.weight: Font.Normal
-                }
-
-                Text {
-                    text: customerData.lotLevel
-                    wrapMode: Text.Wrap
-                    font.pixelSize: 29
-                    font.weight: Font.DemiBold
+                    font.pixelSize: 30
+                    font.weight: Font.Bold
                 }
             }
 
             Row {
-                spacing: textMetrics.width
+                spacing: labelSpacing
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 Text {
-                    text: "Row number:"
+                    text: "Parking place:"
                     color: root.mediumTextColor
                     wrapMode: Text.Wrap
-                    font.pixelSize: 29
+                    font.pixelSize: 30
                     font.weight: Font.Normal
                 }
 
                 Text {
-                    text: customerData.lotRow
+                    text: customerData.parkingPlace
                     wrapMode: Text.Wrap
-                    font.pixelSize: 29
-                    font.weight: Font.DemiBold
+                    font.pixelSize: 30
+                    font.weight: Font.Bold
                 }
             }
         }

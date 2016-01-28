@@ -7,7 +7,9 @@ Item {
     height: 80
 
     property StackView stackView
-    readonly property color color: "#015289"
+    readonly property color color: "#646464"
+    readonly property color accentColor: "#e9500e"
+    readonly property color lightAccentColor: "#d6d6d6"
 
     RowLayout {
         id: rowLayout
@@ -25,10 +27,13 @@ Item {
                 context.lineTo(width, 0);
                 context.lineTo(width - height, height);
                 context.lineTo(0, height);
-                context.closePath();
+                context.clip();
 
                 context.fillStyle = root.color;
-                context.fill();
+                context.fillRect(0, 0, width, height);
+
+                context.fillStyle = root.accentColor;
+                context.fillRect(0, height - 8, width, 8);
             }
         }
 

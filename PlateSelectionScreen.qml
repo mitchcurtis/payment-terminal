@@ -17,8 +17,8 @@ Screen {
         Text {
             text: "Select your license plate number:"
             color: root.mediumTextColor
-            font.weight: Font.Normal
-            font.pixelSize: 48
+            font.weight: Font.Bold
+            font.pixelSize: 44
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
@@ -35,13 +35,13 @@ Screen {
                     Layout.preferredWidth: 200
                     Layout.preferredHeight: 100
                     border.width: 2
-                    border.color: mouseArea.pressed ? navigationBar.color : root.lightTextColor
+                    border.color: mouseArea.pressed ? navigationBar.accentColor : navigationBar.lightAccentColor
                     radius: 12
 
                     Text {
                         text: display
                         font.weight: Font.Normal
-                        font.pixelSize: 36
+                        font.pixelSize: 30
                         fontSizeMode: Text.Fit
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
@@ -54,10 +54,9 @@ Screen {
                         anchors.fill: parent
                         onClicked: {
                             var customerData = {
-                                licensePlateNumber: modelData,
+                                licensePlateNumber: display,
                                 paymentAmount: "5,65 €",
-                                lotLevel: "-1",
-                                lotRow: "P45"
+                                parkingPlace: "8",
                             };
 
                             root.StackView.view.push("qrc:/PaymentSummaryScreen.qml", { customerData: customerData });

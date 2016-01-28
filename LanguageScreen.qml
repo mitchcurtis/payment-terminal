@@ -17,8 +17,8 @@ Screen  {
         Text {
             text: "Pay your parking fee here"
             color: root.mediumTextColor
-            font.weight: Font.Normal
-            font.pixelSize: 60
+            font.weight: Font.Bold
+            font.pixelSize: 44
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
@@ -26,7 +26,7 @@ Screen  {
             text: "Select Language"
             color: root.mediumTextColor
             font.weight: Font.Normal
-            font.pixelSize: 36
+            font.pixelSize: 30
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
@@ -37,8 +37,8 @@ Screen  {
             Rectangle {
                 Layout.preferredWidth: 156
                 Layout.preferredHeight: 164
-                border.width: englishMouseArea.pressed ? 2 : 0
-                border.color: logoBar.color
+                border.width: 2
+                border.color: englishMouseArea.pressed ? logoBar.accentColor : logoBar.lightAccentColor
                 radius: 8
 
                 ColumnLayout {
@@ -70,8 +70,8 @@ Screen  {
             Rectangle {
                 Layout.preferredWidth: 156
                 Layout.preferredHeight: 164
-                border.width: deutschMouseArea.pressed ? 2 : 0
-                border.color: logoBar.color
+                border.width: 2
+                border.color: deutschMouseArea.pressed ? logoBar.accentColor : logoBar.lightAccentColor
                 radius: 8
 
                 ColumnLayout {
