@@ -9,6 +9,8 @@
 
 class LicensePlateModel : public QAbstractListModel
 {
+    Q_OBJECT
+
 public:
     LicensePlateModel(bool offlineMode);
     ~LicensePlateModel();
@@ -17,7 +19,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
-    void onMessageReceived(const QString &message);
+    Q_INVOKABLE void onMessageReceived(const QString &message);
 
 private:
     IOTHUB_CLIENT_HANDLE mIotHubClientHandle;

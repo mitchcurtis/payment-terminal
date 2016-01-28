@@ -7,6 +7,9 @@
 
 int main(int argc, char *argv[])
 {
+    // Force printf calls to stdout to be printed immediately.
+    setbuf(stdout, NULL);
+
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);

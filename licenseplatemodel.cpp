@@ -10,13 +10,12 @@ static IOTHUBMESSAGE_DISPOSITION_RESULT receiveMessageCallback(IOTHUB_MESSAGE_HA
     const char* buffer;
     size_t size;
     if (IoTHubMessage_GetByteArray(message, (const unsigned char**)&buffer, &size) == IOTHUB_MESSAGE_OK)
-    {
-        (void)printf("Received Message [%d] with Data: <<<%.*s>>> & Size=%d\r\n", 123, (int)size, buffer, (int)size);
-    }
+        qDebug("Received Message with Data: <<<%.*s>>> & Size=%d\r\n", (int)size, buffer, (int)size);
 
-    QString messageStr(buffer);
     // TODO: fix string
-    model->onMessageReceived(messageStr);
+    QString messageStr(buffer);
+    // Ensure that the invokable function is called in a thread-safe manner via QueuedConnection.
+    QMetaObject::invokeMethod(model, "onMessageReceived", Qt::QueuedConnection, Q_ARG(QString, messageStr));
     return IOTHUBMESSAGE_ACCEPTED;
 }
 
@@ -30,6 +29,12 @@ LicensePlateModel::LicensePlateModel(bool offlineMode) :
     } else {
         static const char *connectionString = "HostName=tdxiotdemohub.azure-devices.net;DeviceId=tdxpayservice1;SharedAccessKey=OOK283xfJaebVXUk1hqkyG94znDITRpCbtlceEtt12A=";
         mIotHubClientHandle = IoTHubClient_CreateFromConnectionString(connectionString, HTTP_Protocol);
+
+        int minimumPollingTime = 3;
+        if (IoTHubClient_SetOption(mIotHubClientHandle, "MinimumPollingTime", &minimumPollingTime) != IOTHUB_CLIENT_OK) {
+            qWarning() << "Failed to set MinimumPollingTime";
+            return;
+        }
 
         IoTHubClient_SetMessageCallback(mIotHubClientHandle, receiveMessageCallback, this);
     }
@@ -64,5 +69,7 @@ int LicensePlateModel::columnCount(const QModelIndex &) const
 
 void LicensePlateModel::onMessageReceived(const QString &message)
 {
-    qDebug() << Q_FUNC_INFO << message;
+    beginInsertRows(QModelIndex(), mPlates.size(), mPlates.size());
+    mPlates.append(message);
+    endInsertRows();
 }
