@@ -21,6 +21,7 @@ Item {
     ColumnLayout {
         id: columnLayout
         anchors.fill: parent
+        spacing: 0
 
         RowLayout {
             id: rowLayout
@@ -33,7 +34,7 @@ Item {
                 onClicked: stackView.pop()
 
                 background: Item {
-                    implicitWidth: 160
+                    implicitWidth: 198
                 }
 
                 label: Text {
@@ -42,7 +43,7 @@ Item {
                     width: backButton.availableWidth
                     height: backButton.availableHeight
                     text: "Back"
-                    font.pixelSize: 24
+                    font.pixelSize: 30
                     color: "#ffffff"
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -58,22 +59,31 @@ Item {
                 id: quitButton
                 Layout.fillHeight: true
                 onClicked: stackView.pop(null)
+                rightPadding: 15
 
                 background: Item {
-                    implicitWidth: 160
+                    implicitWidth: 198
                 }
 
-                label: Text {
+                label: RowLayout {
                     x: quitButton.leftPadding
                     y: quitButton.topPadding
                     width: quitButton.availableWidth
                     height: quitButton.availableHeight
-                    text: "Quit"
-                    font.pixelSize: 24
-                    color: "#ffffff"
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    elide: Text.ElideRight
+
+                    Text {
+                        text: "Quit"
+                        font.pixelSize: 30
+                        color: "#ffffff"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                        Layout.fillWidth: true
+                    }
+
+                    Image {
+                        source: "qrc:/images/Close-btn.png"
+                    }
                 }
             }
         }
@@ -93,9 +103,7 @@ Item {
     }
 
     Rectangle {
-        x: backButton.mapToItem(null, 0, 0).x - width
-        // TODO:
-        onXChanged: print(x, backButton.x)
+        x: parent.width - quitButton.width - width
         width: 2
         height: columnLayout.height
         color: root.separatorColor

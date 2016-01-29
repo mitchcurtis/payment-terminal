@@ -8,5 +8,9 @@
         <file>images/UK-flag.png</file>
         <file>images/German-flag@2x.png</file>
         <file>images/UK-flag@2x.png</file>
+        <file>images/Close-btn.png</file>
+        <file>images/Close-btn@2x.png</file>
+        <file>images/PayCard.png</file>
+        <file>images/PayCard@2x.png</file>
     </qresource>
 </RCC>

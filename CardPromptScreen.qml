@@ -9,6 +9,12 @@ Screen {
         stackView: root.StackView.view
     }
 
+    TextInput {
+        opacity: 0
+        onAccepted: root.StackView.view.push("qrc:/ReadingCardScreen.qml", { customerData: customerData });
+        Component.onCompleted: forceActiveFocus()
+    }
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -37,27 +43,9 @@ Screen {
                 Layout.preferredHeight: 40
             }
 
-            Rectangle {
-                color: "black"
-                Layout.preferredWidth: 225
-                Layout.preferredHeight: 156
+            Image {
+                source: "qrc:/images/PayCard.png"
                 anchors.horizontalCenter: parent.horizontalCenter
-
-                Text {
-                    text: "Illustration of how to insert the card (click to continue)"
-                    color: "white"
-                    anchors.fill: parent
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    fontSizeMode: Text.Fit
-                    wrapMode: Text.Wrap
-                }
-
-                // TODO: remove
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: root.StackView.view.push("qrc:/ReadingCardScreen.qml", { customerData: root.customerData })
-                }
             }
         }
     }
