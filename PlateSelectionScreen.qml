@@ -39,7 +39,7 @@ Screen {
                     radius: 12
 
                     Text {
-                        text: display
+                        text: model.licensePlateNumber
                         font.weight: Font.Normal
                         font.pixelSize: 30
                         fontSizeMode: Text.Fit
@@ -53,13 +53,25 @@ Screen {
                         id: mouseArea
                         anchors.fill: parent
                         onClicked: {
-                            var customerData = {
-                                licensePlateNumber: display,
-                                paymentAmount: "5,65 €",
-                                parkingPlace: "8",
-                            };
+                            var onPaymentDataAvailable = function(paymentAmount, minutesParked) {
+                                if (root.StackView.view.currentItem !== root)
+                                    return;
 
-                            root.StackView.view.push("qrc:/PaymentSummaryScreen.qml", { customerData: customerData });
+                                console.log(model, userModel)
+                                var customerData = {
+                                    licensePlateNumber: model.licensePlateNumber,
+                                    parkingSpotNumber: model.parkingSpotNumber,
+                                    paymentAmount: paymentAmount,
+                                    minutesParked: minutesParked
+                                };
+
+                                userModel.paymentDataAvailable.disconnect(onPaymentDataAvailable);
+
+                                root.StackView.view.push("qrc:/PaymentSummaryScreen.qml", { customerData: customerData });
+                            }
+
+                            userModel.paymentDataAvailable.connect(onPaymentDataAvailable);
+                            userModel.requestPaymentData(model.licensePlateNumber);
                         }
                     }
                 }

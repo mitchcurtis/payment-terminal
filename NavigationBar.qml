@@ -100,6 +100,7 @@ Item {
         width: 2
         height: columnLayout.height
         color: root.separatorColor
+        visible: backButtonEnabled
     }
 
     Rectangle {

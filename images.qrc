@@ -12,5 +12,7 @@
         <file>images/Close-btn@2x.png</file>
         <file>images/PayCard.png</file>
         <file>images/PayCard@2x.png</file>
+        <file>images/Arrow.png</file>
+        <file>images/Arrow@2x.png</file>
     </qresource>
 </RCC>

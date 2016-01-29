@@ -42,7 +42,7 @@ Screen {
                 }
 
                 Text {
-                    text: "15:53 to 17:21 (1h 30m)"
+                    text: Math.floor(customerData.minutesParked / 60) + "h " + (customerData.minutesParked % 60).toFixed(0) + "m"
                     font.pixelSize: 24
                     font.weight: Font.Normal
                 }
@@ -58,7 +58,7 @@ Screen {
                 }
 
                 Text {
-                    text: customerData.paymentAmount
+                    text: customerData.paymentAmount + " €"
                     font.pixelSize: 48
                     font.weight: Font.Normal
                 }

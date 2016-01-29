@@ -20,14 +20,17 @@ public:
     QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    virtual QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
 public slots:
     void onLicensePlateAdded(const QString &licensePlateNumber);
     void onLicensePlateRemoved(const QString &licensePlateNumber);
     void onParkingSpotAssigned(const QString &licensePlateNumber, int parkingSpotNumber);
 
-protected:
-    virtual QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
+    void requestPaymentData(const QString &licensePlateNumber);
+
+signals:
+    void paymentDataAvailable(qreal paymentAmount, int minutesParked);
 
 private:
     int indexOf(const QString &licensePlateNumber) const;

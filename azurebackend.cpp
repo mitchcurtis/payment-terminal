@@ -44,17 +44,107 @@ void AzureBackend::initialize()
     IoTHubClient_SetMessageCallback(mIotHubClientHandle, receiveMessageCallback, this);
 }
 
+void AzureBackend::requestPaymentData(const QString &licensePlateNumber)
+{
+    // TODO
+}
+
 enum MessageType
 {
     UnknownMessageType,
     LicensePlateAdded,
     LicensePlateRemoved,
-    ParkingSpotAssigned
+    ParkingSpotAssigned,
+    PaymentAmount
 };
 
-static QString LPA = QStringLiteral("LPA");
-static QString LPR = QStringLiteral("LPR");
-static QString PSA = QStringLiteral("PSA");
+static const QString LPA = QStringLiteral("LPA");
+static const QString LPR = QStringLiteral("LPR");
+static const QString PSA = QStringLiteral("PSA");
+static const QString PAM = QStringLiteral("PAM");
+
+static const QString licensePlateNumberKey = QStringLiteral("licensePlateNumber");
+static const QString parkingSpotNumberKey = QStringLiteral("parkingSpotNumber");
+static const QString paymentAmountKey = QStringLiteral("paymentAmount");
+
+bool parseLicensePlateNumber(const QString &message, QString &licensePlateNumber)
+{
+    int equalsIndex = message.indexOf(QStringLiteral("lp="));
+    if (equalsIndex == -1) {
+        qWarning() << "Malformed message; expected \"lp=\" before license plate number:" << message;
+        return false;
+    }
+
+    const int startIndex = equalsIndex + 3;
+    int endIndex = message.indexOf(QLatin1Char(';'), startIndex);
+    // If the index is -1, this was the last parameter, and so it's OK
+    // to pass -1 to mid().
+
+    QString licensePlateStr = message.mid(startIndex, endIndex);
+    if (licensePlateStr.isEmpty()) {
+        qWarning() << "Empty license plate number string";
+        return false;
+    }
+
+    licensePlateNumber = licensePlateStr;
+    return true;
+}
+
+bool parseParkingSpotNumber(const QString &message, int &parkingSpotNumber)
+{
+    int equalsIndex = message.indexOf(QStringLiteral("psid="));
+    if (equalsIndex == -1) {
+        qWarning() << "Malformed message; expected \"psid=\" before parking spot number:" << message;
+        return false;
+    }
+
+    const int startIndex = equalsIndex + 5;
+    int endIndex = message.indexOf(QLatin1Char(';'), startIndex);
+
+    QString parkingSpotNumberStr = message.mid(startIndex, endIndex);
+    if (parkingSpotNumberStr.isEmpty()) {
+        qWarning() << "Empty parking spot number string";
+        return false;
+    }
+
+    bool isInt = false;
+    int parkingSpotNumberInt = parkingSpotNumberStr.toInt(&isInt);
+    if (!isInt) {
+        qWarning() << "Parking spot number" << parkingSpotNumberStr << "is not an integer";
+        return false;
+    }
+
+    parkingSpotNumber = parkingSpotNumberInt;
+    return true;
+}
+
+bool parsePaymentAmount(const QString &message, qreal &paymentAmount)
+{
+    int equalsIndex = message.indexOf(QStringLiteral("price="));
+    if (equalsIndex == -1) {
+        qWarning() << "Malformed message; expected \"price=\" before payment amount:" << message;
+        return false;
+    }
+
+    const int startIndex = equalsIndex + 6;
+    int endIndex = message.indexOf(QLatin1Char(';'), startIndex);
+
+    QString paymentAmountStr = message.mid(startIndex, endIndex);
+    if (paymentAmountStr.isEmpty()) {
+        qWarning() << "Empty payment amount string";
+        return false;
+    }
+
+    bool isDouble = false;
+    qreal paymentAmountReal = paymentAmountStr.toDouble(&isDouble);
+    if (!isDouble) {
+        qWarning() << "Payment amount" << paymentAmountStr << "is not a double";
+        return false;
+    }
+
+    paymentAmount = paymentAmountReal;
+    return true;
+}
 
 MessageType parseMessageData(const QString &message, QVariant &data)
 {
@@ -63,6 +153,7 @@ MessageType parseMessageData(const QString &message, QVariant &data)
         validMessageIdentifiers.insert(LPA, LicensePlateAdded);
         validMessageIdentifiers.insert(LPR, LicensePlateRemoved);
         validMessageIdentifiers.insert(PSA, ParkingSpotAssigned);
+        validMessageIdentifiers.insert(PAM, PaymentAmount);
     }
 
     QString messageIdentifier = message.left(3);
@@ -71,20 +162,32 @@ MessageType parseMessageData(const QString &message, QVariant &data)
         return UnknownMessageType;
     }
 
-    int equalsIndex = message.indexOf(QLatin1Char('='));
-    if (equalsIndex == -1) {
-        qWarning() << "Malformed message; expected '=' before license plate number:" << message;
+    // Every message contains a license plate number.
+    QVariantMap dataMap;
+    QString licensePlateNumber;
+    if (!parseLicensePlateNumber(message, licensePlateNumber))
         return UnknownMessageType;
+
+    dataMap.insert(licensePlateNumberKey, licensePlateNumber);
+
+    const MessageType messageType = validMessageIdentifiers.value(messageIdentifier);
+    if (messageType == ParkingSpotAssigned) {
+        int parkingSpotNumber = -1;
+        if (!parseParkingSpotNumber(message, parkingSpotNumber))
+            return UnknownMessageType;
+
+        dataMap.insert(parkingSpotNumberKey, parkingSpotNumber);
+    } else if (messageType == PaymentAmount) {
+        qreal paymentAmount = 0;
+        if (!parsePaymentAmount(message, paymentAmount))
+            return UnknownMessageType;
+
+        dataMap.insert(paymentAmountKey, paymentAmount);
     }
 
-    QString licensePlateStr = message.mid(equalsIndex + 1);
-    if (licensePlateStr.isEmpty()) {
-        qWarning() << "Empty license plate number";
-        return UnknownMessageType;
-    }
+    data = dataMap;
 
-    data = licensePlateStr;
-    return validMessageIdentifiers.value(messageIdentifier);
+    return messageType;
 }
 
 void AzureBackend::onMessageReceived(const QString &message)
@@ -103,8 +206,11 @@ void AzureBackend::onMessageReceived(const QString &message)
         emit licensePlateRemoved(data.toString());
         break;
     case ParkingSpotAssigned:
-        emit parkingSpotAssigned(dataMap.value("licensePlateNumber").toString(),
-            dataMap.value("parkingSpotNumber").toInt());
+        emit parkingSpotAssigned(dataMap.value(licensePlateNumberKey).toString(),
+            dataMap.value(parkingSpotNumberKey).toInt());
+        break;
+    case PaymentAmount:
+        emit paymentDataAvailable(dataMap.value(paymentAmountKey).toDouble(), 0 /*TODO*/);
         break;
     case UnknownMessageType:
         break;

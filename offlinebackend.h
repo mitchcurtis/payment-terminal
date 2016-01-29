@@ -10,6 +10,8 @@ public:
     explicit OfflineBackend(QObject *parent = 0);
 
     void initialize() Q_DECL_OVERRIDE;
+
+    void requestPaymentData(const QString &licensePlateNumber) Q_DECL_OVERRIDE;
 };
 
 #endif // OFFLINEBACKEND_H

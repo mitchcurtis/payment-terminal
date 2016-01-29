@@ -21,6 +21,7 @@ UserModel::UserModel(bool offlineMode)
     connect(mBackend, &AbstractBackend::licensePlateAdded, this, &UserModel::onLicensePlateAdded);
     connect(mBackend, &AbstractBackend::licensePlateRemoved, this, &UserModel::onLicensePlateRemoved);
     connect(mBackend, &AbstractBackend::parkingSpotAssigned, this, &UserModel::onParkingSpotAssigned);
+    connect(mBackend, &AbstractBackend::paymentDataAvailable, this, &UserModel::paymentDataAvailable);
 
     // Now that we've connected to messageReceived, initialise the backend.
     mBackend->initialize();
@@ -54,6 +55,14 @@ int UserModel::rowCount(const QModelIndex &) const
 int UserModel::columnCount(const QModelIndex &) const
 {
     return 1;
+}
+
+QHash<int, QByteArray> UserModel::roleNames() const
+{
+    QHash<int, QByteArray> names;
+    names[LicensePlateNumber] = "licensePlateNumber";
+    names[ParkingSpotNumber] = "parkingSpotNumber";
+    return names;
 }
 
 void UserModel::onLicensePlateAdded(const QString &licensePlateNumber)
@@ -99,12 +108,9 @@ void UserModel::onParkingSpotAssigned(const QString &licensePlateNumber, int par
     emit dataChanged(modelIndex, modelIndex, rolesAffected);
 }
 
-QHash<int, QByteArray> UserModel::roleNames() const
+void UserModel::requestPaymentData(const QString &licensePlateNumber)
 {
-    QHash<int, QByteArray> names;
-    names[LicensePlateNumber] = "licensePlateNumber";
-    names[ParkingSpotNumber] = "parkingSpotNumber";
-    return names;
+    mBackend->requestPaymentData(licensePlateNumber);
 }
 
 int UserModel::indexOf(const QString &licensePlateNumber) const

@@ -76,7 +76,7 @@ Screen  {
                 }
 
                 Text {
-                    text: customerData.paymentAmount
+                    text: customerData.paymentAmount + " €"
                     wrapMode: Text.Wrap
                     font.pixelSize: 30
                     font.weight: Font.Bold
@@ -96,7 +96,7 @@ Screen  {
                 }
 
                 Text {
-                    text: customerData.parkingPlace
+                    text: customerData.parkingSpotNumber
                     wrapMode: Text.Wrap
                     font.pixelSize: 30
                     font.weight: Font.Bold
