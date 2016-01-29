@@ -5,7 +5,7 @@
 #include <QString>
 #include <QVector>
 
-#include "iothub_client.h"
+class AbstractBackend;
 
 class LicensePlateModel : public QAbstractListModel
 {
@@ -19,11 +19,12 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
-    Q_INVOKABLE void onMessageReceived(const QString &message);
+public slots:
+    void onMessageReceived(const QString &message);
 
 private:
-    IOTHUB_CLIENT_HANDLE mIotHubClientHandle;
     QVector<QString> mPlates;
+    AbstractBackend *mBackend;
 };
 
 #endif // LICENSEPLATEMODEL_H
