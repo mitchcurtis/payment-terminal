@@ -13,7 +13,9 @@ public:
     virtual void initialize() = 0;
 
 signals:
-    void messageReceived(const QString &message);
+    void licensePlateAdded(const QString &licensePlateNumber);
+    void licensePlateRemoved(const QString &licensePlateNumber);
+    void parkingSpotAssigned(const QString &licensePlateNumber, int parkingSpotNumber);
 };
 
 #endif // ABSTRACTBACKEND_H

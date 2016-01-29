@@ -29,7 +29,7 @@ Screen {
             rowSpacing: 23
 
             Repeater {
-                model: licensePlateModel
+                model: userModel
                 delegate: Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredWidth: 200

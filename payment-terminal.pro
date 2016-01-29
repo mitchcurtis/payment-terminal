@@ -4,16 +4,18 @@ QT += qml quick
 CONFIG += c++11
 
 HEADERS += \
-    licenseplatemodel.h \
     azurebackend.h \
     offlinebackend.h \
-    abstractbackend.h
+    abstractbackend.h \
+    userdata.h \
+    usermodel.h
 
 SOURCES += main.cpp \
-    licenseplatemodel.cpp \
     azurebackend.cpp \
     offlinebackend.cpp \
-    abstractbackend.cpp
+    abstractbackend.cpp \
+    userdata.cpp \
+    usermodel.cpp
 
 RESOURCES += qml.qrc \
     images.qrc

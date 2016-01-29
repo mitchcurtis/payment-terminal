@@ -3,7 +3,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "licenseplatemodel.h"
+#include "usermodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,10 +18,10 @@ int main(int argc, char *argv[])
     font.setWeight(QFont::Light);
     app.setFont(font);
 
-    LicensePlateModel licensePlateModel(app.arguments().contains("-offline"));
+    UserModel userModel(app.arguments().contains("-offline"));
 
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("licensePlateModel", &licensePlateModel);
+    engine.rootContext()->setContextProperty("userModel", &userModel);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     return app.exec();

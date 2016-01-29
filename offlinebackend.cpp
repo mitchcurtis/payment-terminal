@@ -17,7 +17,7 @@ void OfflineBackend::initialize()
     };
 
     for (unsigned int i = 0; i < sizeof(plates) / sizeof(plates[0]); ++i)
-        emit messageReceived(plates[i]);
+        emit licensePlateAdded(plates[i]);
 
     initialized = true;
 }

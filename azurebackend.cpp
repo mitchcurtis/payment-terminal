@@ -44,7 +44,69 @@ void AzureBackend::initialize()
     IoTHubClient_SetMessageCallback(mIotHubClientHandle, receiveMessageCallback, this);
 }
 
+enum MessageType
+{
+    UnknownMessageType,
+    LicensePlateAdded,
+    LicensePlateRemoved,
+    ParkingSpotAssigned
+};
+
+static QString LPA = QStringLiteral("LPA");
+static QString LPR = QStringLiteral("LPR");
+static QString PSA = QStringLiteral("PSA");
+
+MessageType parseMessageData(const QString &message, QVariant &data)
+{
+    static QHash<QString, MessageType> validMessageIdentifiers;
+    if (validMessageIdentifiers.isEmpty()) {
+        validMessageIdentifiers.insert(LPA, LicensePlateAdded);
+        validMessageIdentifiers.insert(LPR, LicensePlateRemoved);
+        validMessageIdentifiers.insert(PSA, ParkingSpotAssigned);
+    }
+
+    QString messageIdentifier = message.left(3);
+    if (!validMessageIdentifiers.contains(messageIdentifier)) {
+        qWarning() << "Unknown message identifier:" << message;
+        return UnknownMessageType;
+    }
+
+    int equalsIndex = message.indexOf(QLatin1Char('='));
+    if (equalsIndex == -1) {
+        qWarning() << "Malformed message; expected '=' before license plate number:" << message;
+        return UnknownMessageType;
+    }
+
+    QString licensePlateStr = message.mid(equalsIndex + 1);
+    if (licensePlateStr.isEmpty()) {
+        qWarning() << "Empty license plate number";
+        return UnknownMessageType;
+    }
+
+    data = licensePlateStr;
+    return validMessageIdentifiers.value(messageIdentifier);
+}
+
 void AzureBackend::onMessageReceived(const QString &message)
 {
-    emit messageReceived(message);
+    QVariant data;
+
+    MessageType messageType = parseMessageData(message, data);
+
+    const QMap<QString, QVariant> dataMap = data.toMap();
+
+    switch (messageType) {
+    case LicensePlateAdded:
+        emit licensePlateAdded(data.toString());
+        break;
+    case LicensePlateRemoved:
+        emit licensePlateRemoved(data.toString());
+        break;
+    case ParkingSpotAssigned:
+        emit parkingSpotAssigned(dataMap.value("licensePlateNumber").toString(),
+            dataMap.value("parkingSpotNumber").toInt());
+        break;
+    case UnknownMessageType:
+        break;
+    }
 }
