@@ -20,6 +20,8 @@ public:
     Q_INVOKABLE void onMessageReceived(const QString &message);
 
 private:
+    void sendMessage(const QString &message);
+
     IOTHUB_CLIENT_HANDLE mIotHubClientHandle;
 };
 

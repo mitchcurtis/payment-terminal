@@ -57,7 +57,6 @@ Screen {
                                 if (root.StackView.view.currentItem !== root)
                                     return;
 
-                                console.log(model, userModel)
                                 var customerData = {
                                     licensePlateNumber: model.licensePlateNumber,
                                     parkingSpotNumber: model.parkingSpotNumber,

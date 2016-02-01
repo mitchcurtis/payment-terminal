@@ -4,6 +4,11 @@
 
 #include "iothubtransporthttp.h"
 
+// TODO: should probably be configurable via app args, but for now they will be hard-coded for each device build.
+#define DEVICE_ID "tdxpayservice1"
+#define DEV_ID "5"
+#define SHARED_ACCESS_KEY "OOK283xfJaebVXUk1hqkyG94znDITRpCbtlceEtt12A="
+
 static IOTHUBMESSAGE_DISPOSITION_RESULT receiveMessageCallback(IOTHUB_MESSAGE_HANDLE message, void* userData)
 {
     AzureBackend* backend = (AzureBackend*)userData;
@@ -32,19 +37,21 @@ AzureBackend::~AzureBackend()
 
 void AzureBackend::initialize()
 {
-    static const char *connectionString = "HostName=tdxiotdemohub.azure-devices.net;DeviceId=tdxpayservice1;SharedAccessKey=OOK283xfJaebVXUk1hqkyG94znDITRpCbtlceEtt12A=";
+    static const char *connectionString = "HostName=tdxiotdemohub.azure-devices.net;DeviceId=" DEVICE_ID ";SharedAccessKey=" SHARED_ACCESS_KEY;
     mIotHubClientHandle = IoTHubClient_CreateFromConnectionString(connectionString, HTTP_Protocol);
 
-    int minimumPollingTime = 3;
+    int minimumPollingTime = 30000;// 3;
     if (IoTHubClient_SetOption(mIotHubClientHandle, "MinimumPollingTime", &minimumPollingTime) != IOTHUB_CLIENT_OK) {
         qWarning() << "Failed to set MinimumPollingTime";
         return;
     }
 
     IoTHubClient_SetMessageCallback(mIotHubClientHandle, receiveMessageCallback, this);
+
+    sendMessage(QStringLiteral("ONL,devid=") + QStringLiteral(DEV_ID));
 }
 
-void AzureBackend::requestPaymentData(const QString &licensePlateNumber)
+void AzureBackend::requestPaymentData(const QString &/*licensePlateNumber*/)
 {
     // TODO
 }
@@ -80,7 +87,7 @@ bool parseLicensePlateNumber(const QString &message, QString &licensePlateNumber
     // If the index is -1, this was the last parameter, and so it's OK
     // to pass -1 to mid().
 
-    QString licensePlateStr = message.mid(startIndex, endIndex);
+    QString licensePlateStr = message.mid(startIndex, endIndex - startIndex);
     if (licensePlateStr.isEmpty()) {
         qWarning() << "Empty license plate number string";
         return false;
@@ -101,7 +108,7 @@ bool parseParkingSpotNumber(const QString &message, int &parkingSpotNumber)
     const int startIndex = equalsIndex + 5;
     int endIndex = message.indexOf(QLatin1Char(';'), startIndex);
 
-    QString parkingSpotNumberStr = message.mid(startIndex, endIndex);
+    QString parkingSpotNumberStr = message.mid(startIndex, endIndex - startIndex);
     if (parkingSpotNumberStr.isEmpty()) {
         qWarning() << "Empty parking spot number string";
         return false;
@@ -129,7 +136,7 @@ bool parsePaymentAmount(const QString &message, qreal &paymentAmount)
     const int startIndex = equalsIndex + 6;
     int endIndex = message.indexOf(QLatin1Char(';'), startIndex);
 
-    QString paymentAmountStr = message.mid(startIndex, endIndex);
+    QString paymentAmountStr = message.mid(startIndex, endIndex - startIndex);
     if (paymentAmountStr.isEmpty()) {
         qWarning() << "Empty payment amount string";
         return false;
@@ -171,7 +178,7 @@ MessageType parseMessageData(const QString &message, QVariant &data)
     dataMap.insert(licensePlateNumberKey, licensePlateNumber);
 
     const MessageType messageType = validMessageIdentifiers.value(messageIdentifier);
-    if (messageType == ParkingSpotAssigned) {
+    if (messageType == LicensePlateAdded || messageType == ParkingSpotAssigned) {
         int parkingSpotNumber = -1;
         if (!parseParkingSpotNumber(message, parkingSpotNumber))
             return UnknownMessageType;
@@ -200,10 +207,11 @@ void AzureBackend::onMessageReceived(const QString &message)
 
     switch (messageType) {
     case LicensePlateAdded:
-        emit licensePlateAdded(data.toString());
+        emit licensePlateAdded(dataMap.value(licensePlateNumberKey).toString(),
+            dataMap.value(parkingSpotNumberKey).toInt());
         break;
     case LicensePlateRemoved:
-        emit licensePlateRemoved(data.toString());
+        emit licensePlateRemoved(dataMap.value(licensePlateNumberKey).toString());
         break;
     case ParkingSpotAssigned:
         emit parkingSpotAssigned(dataMap.value(licensePlateNumberKey).toString(),
@@ -215,4 +223,21 @@ void AzureBackend::onMessageReceived(const QString &message)
     case UnknownMessageType:
         break;
     }
+}
+
+static void sendConfirmationCallback(IOTHUB_CLIENT_CONFIRMATION_RESULT, void* userData)
+{
+    IOTHUB_MESSAGE_HANDLE messageHandle = (IOTHUB_MESSAGE_HANDLE)userData;
+    IoTHubMessage_Destroy(messageHandle);
+}
+
+void AzureBackend::sendMessage(const QString &message)
+{
+    const unsigned char *unsignedMessage = (const unsigned char*)message.utf16();
+    // Make sure that we have twice the size to account for the utf16 pairs.
+    IOTHUB_MESSAGE_HANDLE messageHandle = IoTHubMessage_CreateFromByteArray(unsignedMessage, message.size() * sizeof(QChar));
+
+    const IOTHUB_CLIENT_RESULT sendResult = IoTHubClient_SendEventAsync(mIotHubClientHandle, messageHandle, sendConfirmationCallback, messageHandle);
+    if (sendResult != IOTHUB_CLIENT_OK)
+        qWarning().nospace() << "Failed to send message \"" << message << "\": " << sendResult;
 }

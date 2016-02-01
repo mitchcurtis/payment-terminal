@@ -17,14 +17,13 @@ void OfflineBackend::initialize()
     };
 
     for (unsigned int i = 0; i < sizeof(plates) / sizeof(plates[0]); ++i) {
-        emit licensePlateAdded(plates[i]);
-        emit parkingSpotAssigned(plates[i], i + 1);
+        emit licensePlateAdded(plates[i], i + 1);
     }
 
     initialized = true;
 }
 
-void OfflineBackend::requestPaymentData(const QString &licensePlateNumber)
+void OfflineBackend::requestPaymentData(const QString &/*licensePlateNumber*/)
 {
     emit paymentDataAvailable(5.5, 160);
 }
