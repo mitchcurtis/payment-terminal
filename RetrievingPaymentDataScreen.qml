@@ -9,18 +9,19 @@ Screen  {
         stackView: root.StackView.view
     }
 
+    function onPaymentDataAvailable(paymentAmount, minutesParked) {
+        root.customerData.paymentAmount = paymentAmount;
+        root.customerData.minutesParked = minutesParked;
+
+        userModel.paymentDataAvailable.disconnect(onPaymentDataAvailable);
+
+        root.StackView.view.push("qrc:/PaymentSummaryScreen.qml", { customerData: root.customerData });
+    }
+
     readonly property int stackViewStatus: root.StackView.status
+
     onStackViewStatusChanged: {
         if (stackViewStatus == StackView.Active) {
-            var onPaymentDataAvailable = function(paymentAmount, minutesParked) {
-                root.customerData.paymentAmount = paymentAmount;
-                root.customerData.minutesParked = minutesParked;
-
-                userModel.paymentDataAvailable.disconnect(onPaymentDataAvailable);
-
-                root.StackView.view.push("qrc:/PaymentSummaryScreen.qml", { customerData: root.customerData });
-            }
-
             userModel.paymentDataAvailable.connect(onPaymentDataAvailable);
             userModel.requestPaymentData(root.customerData.licensePlateNumber);
         }
