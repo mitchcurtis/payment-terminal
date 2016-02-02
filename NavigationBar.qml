@@ -12,6 +12,7 @@ Item {
     readonly property color lightAccentColor: "#d6d6d6"
     readonly property color separatorColor: "#4c939393"
     property bool backButtonEnabled: true
+    property var onBackButtonClicked: function() { stackView.pop(); }
 
     Rectangle {
         color: root.color
@@ -31,7 +32,7 @@ Item {
                 id: backButton
                 Layout.fillHeight: true
                 visible: backButtonEnabled
-                onClicked: stackView.pop()
+                onClicked: onBackButtonClicked()
 
                 background: Item {
                     implicitWidth: 198

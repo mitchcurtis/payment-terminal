@@ -7,6 +7,12 @@ Screen {
 
     header: NavigationBar {
         stackView: root.StackView.view
+
+        onBackButtonClicked: function() {
+            // Skip RetrievingPaymentDataScreen.
+            root.StackView.view.pop();
+            root.StackView.view.pop();
+        }
     }
 
     ColumnLayout {
