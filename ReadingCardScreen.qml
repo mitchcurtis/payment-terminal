@@ -19,12 +19,16 @@ Screen {
     Timer {
         id: nextScreenTimer
         interval: 1500
-        onTriggered: root.StackView.view.push("qrc:/ConfirmationScreen.qml", { customerData: root.customerData })
+        onTriggered: {
+            userModel.paymentAccepted(root.customerData.licensePlateNumber);
+
+            root.StackView.view.push("qrc:/ConfirmationScreen.qml", { customerData: root.customerData });
+        }
     }
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 0
+        spacing: 20
 
         Text {
             text: "Paying " + customerData.paymentAmount

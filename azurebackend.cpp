@@ -17,7 +17,8 @@ static IOTHUBMESSAGE_DISPOSITION_RESULT receiveMessageCallback(IOTHUB_MESSAGE_HA
     if (IoTHubMessage_GetByteArray(message, (const unsigned char**)&buffer, &size) == IOTHUB_MESSAGE_OK)
         qDebug("Received Message with Data: <<<%.*s>>> & Size=%d", (int)size, buffer, (int)size);
 
-    QString messageStr(QString::fromUtf8(buffer, size));
+    // TODO: test this
+    QString messageStr(QString::fromUtf16((const unsigned short*)buffer, size));
     // Ensure that the invokable function is called in a thread-safe manner via QueuedConnection.
     QMetaObject::invokeMethod(backend, "onMessageReceived", Qt::QueuedConnection, Q_ARG(QString, messageStr));
     return IOTHUBMESSAGE_ACCEPTED;

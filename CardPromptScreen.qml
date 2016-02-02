@@ -17,36 +17,35 @@ Screen {
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 0
+        spacing: 20
 
-        ColumnLayout {
-            Text {
-                text: "Paying " + customerData.paymentAmount
-                color: root.mediumTextColor
-                wrapMode: Text.Wrap
-                font.weight: Font.Normal
-                font.pixelSize: 60
-                Layout.fillWidth: true
-                horizontalAlignment: Text.AlignHCenter
-            }
+        Text {
+            text: "Paying " + customerData.paymentAmount
+            color: root.mediumTextColor
+            wrapMode: Text.Wrap
+            font.weight: Font.Normal
+            font.pixelSize: 60
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
+        }
 
-            Text {
-                text: "Please insert your credit card with the chip side up"
-                color: root.mediumTextColor
-                font.weight: Font.Normal
-                font.pixelSize: 36
-                Layout.fillWidth: true
-                horizontalAlignment: Text.AlignHCenter
-            }
+        Text {
+            text: "Please place your card on the card reader"
+            color: root.mediumTextColor
+            font.weight: Font.Normal
+            font.pixelSize: 36
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
+        }
 
-            Item {
-                Layout.preferredHeight: 40
-            }
+        Item {
+            Layout.preferredHeight: 40
+            Layout.fillHeight: true
+        }
 
-            Image {
-                source: "qrc:/images/PayCard.png"
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
+        Image {
+            source: "qrc:/images/PayCard.png"
+            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
 }

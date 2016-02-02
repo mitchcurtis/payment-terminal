@@ -113,6 +113,11 @@ void UserModel::requestPaymentData(const QString &licensePlateNumber)
     mBackend->requestPaymentData(licensePlateNumber);
 }
 
+void UserModel::paymentAccepted(const QString &licensePlateNumber)
+{
+    mBackend->paymentAccepted(licensePlateNumber);
+}
+
 int UserModel::indexOf(const QString &licensePlateNumber) const
 {
     for (int i = 0; i < mUsers.size(); ++i) {

@@ -28,6 +28,7 @@ public slots:
     void onParkingSpotAssigned(const QString &licensePlateNumber, int parkingSpotNumber);
 
     void requestPaymentData(const QString &licensePlateNumber);
+    void paymentAccepted(const QString &licensePlateNumber);
 
 signals:
     void paymentDataAvailable(qreal paymentAmount, int minutesParked);
