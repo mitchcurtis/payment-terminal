@@ -10,5 +10,6 @@
         <file>ConfirmationScreen.qml</file>
         <file>Screen.qml</file>
         <file>LogoBar.qml</file>
+        <file>RetrievingPaymentDataScreen.qml</file>
     </qresource>
 </RCC>

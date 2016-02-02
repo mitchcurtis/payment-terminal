@@ -53,24 +53,12 @@ Screen {
                         id: mouseArea
                         anchors.fill: parent
                         onClicked: {
-                            var onPaymentDataAvailable = function(paymentAmount, minutesParked) {
-                                if (root.StackView.view.currentItem !== root)
-                                    return;
+                            var customerData = {
+                                licensePlateNumber: model.licensePlateNumber,
+                                parkingSpotNumber: model.parkingSpotNumber
+                            };
 
-                                var customerData = {
-                                    licensePlateNumber: model.licensePlateNumber,
-                                    parkingSpotNumber: model.parkingSpotNumber,
-                                    paymentAmount: paymentAmount,
-                                    minutesParked: minutesParked
-                                };
-
-                                userModel.paymentDataAvailable.disconnect(onPaymentDataAvailable);
-
-                                root.StackView.view.push("qrc:/PaymentSummaryScreen.qml", { customerData: customerData });
-                            }
-
-                            userModel.paymentDataAvailable.connect(onPaymentDataAvailable);
-                            userModel.requestPaymentData(model.licensePlateNumber);
+                            root.StackView.view.push("qrc:/RetrievingPaymentDataScreen.qml", { customerData: customerData });
                         }
                     }
                 }
