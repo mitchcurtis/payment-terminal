@@ -27,3 +27,7 @@ void OfflineBackend::requestPaymentData(const QString &/*licensePlateNumber*/)
 {
     emit paymentDataAvailable(5.5, 160);
 }
+
+void OfflineBackend::paymentAccepted(const QString &/*licensePlateNumber*/)
+{
+}

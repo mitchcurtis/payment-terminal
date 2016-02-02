@@ -16,6 +16,7 @@ public:
     void initialize() Q_DECL_OVERRIDE;
 
     void requestPaymentData(const QString &licensePlateNumber) Q_DECL_OVERRIDE;
+    void paymentAccepted(const QString &licensePlateNumber) Q_DECL_OVERRIDE;
 
     Q_INVOKABLE void onMessageReceived(const QString &message);
 

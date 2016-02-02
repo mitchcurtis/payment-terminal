@@ -14,6 +14,7 @@ public:
 
 public slots:
     virtual void requestPaymentData(const QString &licensePlateNumber) = 0;
+    virtual void paymentAccepted(const QString &licensePlateNumber) = 0;
 
 signals:
     // A car entered the lot.

@@ -40,7 +40,7 @@ void AzureBackend::initialize()
     static const char *connectionString = "HostName=tdxiotdemohub.azure-devices.net;DeviceId=" DEVICE_ID ";SharedAccessKey=" SHARED_ACCESS_KEY;
     mIotHubClientHandle = IoTHubClient_CreateFromConnectionString(connectionString, HTTP_Protocol);
 
-    int minimumPollingTime = 30000;// 3;
+    int minimumPollingTime = 3;
     if (IoTHubClient_SetOption(mIotHubClientHandle, "MinimumPollingTime", &minimumPollingTime) != IOTHUB_CLIENT_OK) {
         qWarning() << "Failed to set MinimumPollingTime";
         return;
@@ -48,12 +48,17 @@ void AzureBackend::initialize()
 
     IoTHubClient_SetMessageCallback(mIotHubClientHandle, receiveMessageCallback, this);
 
-    sendMessage(QStringLiteral("ONL,devid=") + QStringLiteral(DEV_ID));
+    sendMessage(QLatin1String("ONL,devid=" DEV_ID));
 }
 
-void AzureBackend::requestPaymentData(const QString &/*licensePlateNumber*/)
+void AzureBackend::requestPaymentData(const QString &licensePlateNumber)
 {
-    // TODO
+    sendMessage(QLatin1String("PRQ,devid=" DEV_ID ";lp=") + licensePlateNumber);
+}
+
+void AzureBackend::paymentAccepted(const QString &licensePlateNumber)
+{
+    sendMessage(QLatin1String("PAC,devid=" DEV_ID ";lp=") + licensePlateNumber);
 }
 
 enum MessageType

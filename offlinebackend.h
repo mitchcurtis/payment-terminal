@@ -12,6 +12,7 @@ public:
     void initialize() Q_DECL_OVERRIDE;
 
     void requestPaymentData(const QString &licensePlateNumber) Q_DECL_OVERRIDE;
+    void paymentAccepted(const QString &licensePlateNumber) Q_DECL_OVERRIDE;
 };
 
 #endif // OFFLINEBACKEND_H
