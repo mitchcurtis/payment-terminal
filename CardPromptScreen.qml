@@ -11,8 +11,14 @@ Screen {
 
     TextInput {
         opacity: 0
-        onAccepted: root.StackView.view.push("qrc:/ReadingCardScreen.qml", { customerData: customerData });
+        onAccepted: root.StackView.view.push("qrc:/ReadingCardScreen.qml", { customerData: customerData })
         Component.onCompleted: forceActiveFocus()
+    }
+
+    // Fallback option in case the RFID reader isn't available.
+    MouseArea {
+        anchors.fill: parent
+        onPressAndHold: root.StackView.view.push("qrc:/ReadingCardScreen.qml", { customerData: customerData })
     }
 
     ColumnLayout {
