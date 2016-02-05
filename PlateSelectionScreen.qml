@@ -10,32 +10,58 @@ Screen {
         stackView: root.StackView.view
     }
 
-    ColumnLayout {
-        anchors.fill: parent
-        spacing: 80
+    Text {
+        id: instructionText
+        text: "Select your license plate number:"
+        color: root.mediumTextColor
+        font.weight: Font.Bold
+        font.pixelSize: 44
+        verticalAlignment: Text.AlignVCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+    }
 
-        Text {
-            text: "Select your license plate number:"
-            color: root.mediumTextColor
-            font.weight: Font.Bold
-            font.pixelSize: 44
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+    Item {
+        anchors.top: instructionText.bottom
+        anchors.topMargin: 80
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
 
-        GridLayout {
+        Grid {
             columns: 4
             rows: 2
             columnSpacing: 20
             rowSpacing: 23
+            anchors.fill: parent
+
+            Repeater {
+                model: 8
+                delegate: Rectangle {
+                    width: 200
+                    height: 100
+                    color: "transparent"
+                    border.width: 2
+                    border.color: navigationBar.lightAccentColor
+                    radius: 12
+                }
+            }
+        }
+
+        Grid {
+            columns: 4
+            rows: 2
+            columnSpacing: 20
+            rowSpacing: 23
+            anchors.fill: parent
 
             Repeater {
                 model: userModel
                 delegate: Rectangle {
-                    Layout.fillWidth: true
-                    Layout.preferredWidth: 200
-                    Layout.preferredHeight: 100
+                    width: 200
+                    height: 100
+                    color: "transparent"
                     border.width: 2
-                    border.color: mouseArea.pressed ? navigationBar.accentColor : navigationBar.lightAccentColor
+                    border.color: mouseArea.pressed ? navigationBar.accentColor : "transparent"
                     radius: 12
 
                     Text {
@@ -52,6 +78,7 @@ Screen {
                     MouseArea {
                         id: mouseArea
                         anchors.fill: parent
+                        enabled: model.licensePlateNumber.length > 0
                         onClicked: {
                             var customerData = {
                                 licensePlateNumber: model.licensePlateNumber,

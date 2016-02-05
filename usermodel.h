@@ -23,7 +23,7 @@ public:
     virtual QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
 public slots:
-    void onLicensePlateAdded(const QString &licensePlateNumber);
+    void onLicensePlateAdded(const QString &licensePlateNumber, int parkingSpotNumber);
     void onLicensePlateRemoved(const QString &licensePlateNumber);
     void onParkingSpotAssigned(const QString &licensePlateNumber, int parkingSpotNumber);
 

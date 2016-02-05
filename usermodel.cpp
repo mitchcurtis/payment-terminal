@@ -65,7 +65,7 @@ QHash<int, QByteArray> UserModel::roleNames() const
     return names;
 }
 
-void UserModel::onLicensePlateAdded(const QString &licensePlateNumber)
+void UserModel::onLicensePlateAdded(const QString &licensePlateNumber, int parkingSpotNumber)
 {
     if (indexOf(licensePlateNumber) != -1) {
         qWarning() << "License plate number" << licensePlateNumber << "already exists in model";
@@ -75,6 +75,7 @@ void UserModel::onLicensePlateAdded(const QString &licensePlateNumber)
     beginInsertRows(QModelIndex(), mUsers.size(), mUsers.size());
     UserData userData;
     userData.setLicensePlateNumber(licensePlateNumber);
+    userData.setParkingSpotNumber(parkingSpotNumber);
     mUsers.append(userData);
     endInsertRows();
 }

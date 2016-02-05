@@ -17,8 +17,7 @@ static IOTHUBMESSAGE_DISPOSITION_RESULT receiveMessageCallback(IOTHUB_MESSAGE_HA
     if (IoTHubMessage_GetByteArray(message, (const unsigned char**)&buffer, &size) == IOTHUB_MESSAGE_OK)
         qDebug("Received Message with Data: <<<%.*s>>> & Size=%d", (int)size, buffer, (int)size);
 
-    // TODO: test this
-    QString messageStr(QString::fromUtf16((const unsigned short*)buffer, size));
+    QString messageStr(QString::fromUtf16((const unsigned short*)buffer, size / 2 - 1));
     // Ensure that the invokable function is called in a thread-safe manner via QueuedConnection.
     QMetaObject::invokeMethod(backend, "onMessageReceived", Qt::QueuedConnection, Q_ARG(QString, messageStr));
     return IOTHUBMESSAGE_ACCEPTED;
@@ -41,7 +40,7 @@ void AzureBackend::initialize()
     static const char *connectionString = "HostName=tdxiotdemohub.azure-devices.net;DeviceId=" DEVICE_ID ";SharedAccessKey=" SHARED_ACCESS_KEY;
     mIotHubClientHandle = IoTHubClient_CreateFromConnectionString(connectionString, HTTP_Protocol);
 
-    int minimumPollingTime = 3;
+    const int minimumPollingTime = 1;
     if (IoTHubClient_SetOption(mIotHubClientHandle, "MinimumPollingTime", &minimumPollingTime) != IOTHUB_CLIENT_OK) {
         qWarning() << "Failed to set MinimumPollingTime";
         return;
@@ -79,21 +78,22 @@ static const QString PAM = QStringLiteral("PAM");
 static const QString licensePlateNumberKey = QStringLiteral("licensePlateNumber");
 static const QString parkingSpotNumberKey = QStringLiteral("parkingSpotNumber");
 static const QString paymentAmountKey = QStringLiteral("paymentAmount");
+static const QString minutesParkedKey = QStringLiteral("minutesParked");
 
 bool parseLicensePlateNumber(const QString &message, QString &licensePlateNumber)
 {
-    int equalsIndex = message.indexOf(QStringLiteral("lp="));
+    const int equalsIndex = message.indexOf(QStringLiteral("lp="));
     if (equalsIndex == -1) {
         qWarning() << "Malformed message; expected \"lp=\" before license plate number:" << message;
         return false;
     }
 
     const int startIndex = equalsIndex + 3;
-    int endIndex = message.indexOf(QLatin1Char(';'), startIndex);
+    const int endIndex = message.indexOf(QLatin1Char(';'), startIndex);
     // If the index is -1, this was the last parameter, and so it's OK
     // to pass -1 to mid().
 
-    QString licensePlateStr = message.mid(startIndex, endIndex - startIndex);
+    const QString licensePlateStr = message.mid(startIndex, endIndex - startIndex);
     if (licensePlateStr.isEmpty()) {
         qWarning() << "Empty license plate number string";
         return false;
@@ -105,16 +105,16 @@ bool parseLicensePlateNumber(const QString &message, QString &licensePlateNumber
 
 bool parseParkingSpotNumber(const QString &message, int &parkingSpotNumber)
 {
-    int equalsIndex = message.indexOf(QStringLiteral("psid="));
+    const int equalsIndex = message.indexOf(QStringLiteral("psid="));
     if (equalsIndex == -1) {
         qWarning() << "Malformed message; expected \"psid=\" before parking spot number:" << message;
         return false;
     }
 
     const int startIndex = equalsIndex + 5;
-    int endIndex = message.indexOf(QLatin1Char(';'), startIndex);
+    const int endIndex = message.indexOf(QLatin1Char(';'), startIndex);
 
-    QString parkingSpotNumberStr = message.mid(startIndex, endIndex - startIndex);
+    const QString parkingSpotNumberStr = message.mid(startIndex, endIndex - startIndex);
     if (parkingSpotNumberStr.isEmpty()) {
         qWarning() << "Empty parking spot number string";
         return false;
@@ -133,16 +133,16 @@ bool parseParkingSpotNumber(const QString &message, int &parkingSpotNumber)
 
 bool parsePaymentAmount(const QString &message, qreal &paymentAmount)
 {
-    int equalsIndex = message.indexOf(QStringLiteral("price="));
+    const int equalsIndex = message.indexOf(QStringLiteral("price="));
     if (equalsIndex == -1) {
         qWarning() << "Malformed message; expected \"price=\" before payment amount:" << message;
         return false;
     }
 
     const int startIndex = equalsIndex + 6;
-    int endIndex = message.indexOf(QLatin1Char(';'), startIndex);
+    const int endIndex = message.indexOf(QLatin1Char(';'), startIndex);
 
-    QString paymentAmountStr = message.mid(startIndex, endIndex - startIndex);
+    const QString paymentAmountStr = message.mid(startIndex, endIndex - startIndex);
     if (paymentAmountStr.isEmpty()) {
         qWarning() << "Empty payment amount string";
         return false;
@@ -156,6 +156,34 @@ bool parsePaymentAmount(const QString &message, qreal &paymentAmount)
     }
 
     paymentAmount = paymentAmountReal;
+    return true;
+}
+
+bool parseMinutesParked(const QString &message, qreal &minutesParked)
+{
+    int equalsIndex = message.indexOf(QStringLiteral("time="));
+    if (equalsIndex == -1) {
+        qWarning() << "Malformed message; expected \"time=\" before minutes parked:" << message;
+        return false;
+    }
+
+    const int startIndex = equalsIndex + 5;
+    const int endIndex = message.indexOf(QLatin1Char(';'), startIndex);
+
+    const QString minutesParkedStr = message.mid(startIndex, endIndex - startIndex);
+    if (minutesParkedStr.isEmpty()) {
+        qWarning() << "Empty minutes parked string";
+        return false;
+    }
+
+    bool isDouble = false;
+    qreal minutesParkedReal = minutesParkedStr.toDouble(&isDouble);
+    if (!isDouble) {
+        qWarning() << "Minutes parked" << minutesParkedStr << "is not a double";
+        return false;
+    }
+
+    minutesParked = minutesParkedReal;
     return true;
 }
 
@@ -195,7 +223,12 @@ MessageType parseMessageData(const QString &message, QVariant &data)
         if (!parsePaymentAmount(message, paymentAmount))
             return UnknownMessageType;
 
+        qreal minutesParked = 0;
+        if (!parseMinutesParked(message, minutesParked))
+            return UnknownMessageType;
+
         dataMap.insert(paymentAmountKey, paymentAmount);
+        dataMap.insert(minutesParkedKey, minutesParked);
     }
 
     data = dataMap;
@@ -224,7 +257,8 @@ void AzureBackend::onMessageReceived(const QString &message)
             dataMap.value(parkingSpotNumberKey).toInt());
         break;
     case PaymentAmount:
-        emit paymentDataAvailable(dataMap.value(paymentAmountKey).toDouble(), 0 /*TODO*/);
+        emit paymentDataAvailable(dataMap.value(paymentAmountKey).toDouble(),
+            dataMap.value(minutesParkedKey).toDouble());
         break;
     case UnknownMessageType:
         break;
