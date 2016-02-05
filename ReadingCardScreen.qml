@@ -31,7 +31,7 @@ Screen {
         spacing: 20
 
         Text {
-            text: "Paying " + customerData.paymentAmount
+            text: "Paying " + customerData.paymentAmount + " €"
             color: root.mediumTextColor
             wrapMode: Text.Wrap
             font.weight: Font.Normal
