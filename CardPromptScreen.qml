@@ -11,7 +11,8 @@ Screen {
 
     TextInput {
         opacity: 0
-        onAccepted: root.StackView.view.push("qrc:/ReadingCardScreen.qml", { customerData: customerData })
+        enabled: root.StackView.view && root.StackView.view.currentItem === root
+        onAccepted: root.StackView.view.push("qrc:/ReadingCardScreen.qml", { customerData: customerData });
         Component.onCompleted: forceActiveFocus()
     }
 
