@@ -20,20 +20,20 @@ Item {
         Canvas {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            contextType: "2d"
             onPaint: {
-                context.beginPath();
-                context.moveTo(0, 0);
-                context.lineTo(width, 0);
-                context.lineTo(width - height, height);
-                context.lineTo(0, height);
-                context.clip();
+                var ctx = getContext("2d");
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(width, 0);
+                ctx.lineTo(width - height, height);
+                ctx.lineTo(0, height);
+                ctx.clip();
 
-                context.fillStyle = root.color;
-                context.fillRect(0, 0, width, height);
+                ctx.fillStyle = root.color;
+                ctx.fillRect(0, 0, width, height);
 
-                context.fillStyle = root.accentColor;
-                context.fillRect(0, height - 8, width, 8);
+                ctx.fillStyle = root.accentColor;
+                ctx.fillRect(0, height - 8, width, 8);
             }
         }
 

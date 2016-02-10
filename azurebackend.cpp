@@ -5,9 +5,9 @@
 #include "iothubtransporthttp.h"
 
 // TODO: should probably be configurable via app args, but for now they will be hard-coded for each device build.
-#define DEVICE_ID "tdxpayservice1"
+#define DEVICE_ID "payservice1"
 #define DEV_ID "5"
-#define SHARED_ACCESS_KEY "OOK283xfJaebVXUk1hqkyG94znDITRpCbtlceEtt12A="
+#define SHARED_ACCESS_KEY "MpCjmtTGul5pga/i9zHct9erEyvHS7kIcWxjxd+UgGI="
 
 static IOTHUBMESSAGE_DISPOSITION_RESULT receiveMessageCallback(IOTHUB_MESSAGE_HANDLE message, void* userData)
 {
@@ -37,7 +37,7 @@ AzureBackend::~AzureBackend()
 
 void AzureBackend::initialize()
 {
-    static const char *connectionString = "HostName=tdxiotdemohub.azure-devices.net;DeviceId=" DEVICE_ID ";SharedAccessKey=" SHARED_ACCESS_KEY;
+    static const char *connectionString = "HostName=cloudparkingdemoiothub.azure-devices.net;DeviceId=" DEVICE_ID ";SharedAccessKey=" SHARED_ACCESS_KEY;
     mIotHubClientHandle = IoTHubClient_CreateFromConnectionString(connectionString, HTTP_Protocol);
 
     const int minimumPollingTime = 1;
