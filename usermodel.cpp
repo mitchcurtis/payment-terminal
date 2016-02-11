@@ -65,13 +65,8 @@ QHash<int, QByteArray> UserModel::roleNames() const
     return names;
 }
 
-void UserModel::onLicensePlateAdded(const QString &licensePlateNumber, int parkingSpotNumber)
+void UserModel::addUser(const QString &licensePlateNumber, int parkingSpotNumber)
 {
-    if (indexOf(licensePlateNumber) != -1) {
-        qWarning() << "License plate number" << licensePlateNumber << "already exists in model";
-        return;
-    }
-
     beginInsertRows(QModelIndex(), mUsers.size(), mUsers.size());
     UserData userData;
     userData.setLicensePlateNumber(licensePlateNumber);
@@ -80,8 +75,22 @@ void UserModel::onLicensePlateAdded(const QString &licensePlateNumber, int parki
     endInsertRows();
 }
 
+void UserModel::onLicensePlateAdded(const QString &licensePlateNumber, int parkingSpotNumber)
+{
+    qInfo() << Q_FUNC_INFO << "licensePlateNumber" << licensePlateNumber << "parkingSpotNumber" << parkingSpotNumber;
+
+    if (indexOf(licensePlateNumber) != -1) {
+        qWarning() << "License plate number" << licensePlateNumber << "already exists in model";
+        return;
+    }
+
+    addUser(licensePlateNumber, parkingSpotNumber);
+}
+
 void UserModel::onLicensePlateRemoved(const QString &licensePlateNumber)
 {
+    qInfo() << Q_FUNC_INFO << "licensePlateNumber" << licensePlateNumber;
+
     int index = indexOf(licensePlateNumber);
     if (index == -1) {
         qWarning() << "License plate number" << licensePlateNumber << "doesn't exist in model";
@@ -95,10 +104,11 @@ void UserModel::onLicensePlateRemoved(const QString &licensePlateNumber)
 
 void UserModel::onParkingSpotAssigned(const QString &licensePlateNumber, int parkingSpotNumber)
 {
+    qInfo() << Q_FUNC_INFO << "licensePlateNumber" << licensePlateNumber << "parkingSpotNumber" << parkingSpotNumber;
+
     int index = indexOf(licensePlateNumber);
     if (index == -1) {
-        qWarning() << "License plate number" << licensePlateNumber << "doesn't exist in model";
-        return;
+        addUser(licensePlateNumber, parkingSpotNumber);
     }
 
     mUsers[index].setParkingSpotNumber(parkingSpotNumber);

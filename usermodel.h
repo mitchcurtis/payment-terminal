@@ -35,6 +35,7 @@ signals:
 
 private:
     int indexOf(const QString &licensePlateNumber) const;
+    void addUser(const QString &licensePlateNumber, int parkingSpotNumber);
 
     QVector<UserData> mUsers;
     AbstractBackend *mBackend;
