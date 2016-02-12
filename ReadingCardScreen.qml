@@ -31,7 +31,7 @@ Screen {
         spacing: 20
 
         Text {
-            text: "Paying " + customerData.paymentAmount + " €"
+            text: qsTr("Paying %L1 €").arg(customerData.paymentAmount)
             color: root.mediumTextColor
             wrapMode: Text.Wrap
             font.weight: Font.Normal
@@ -41,7 +41,7 @@ Screen {
         }
 
         Text {
-            text: "Reading your card..."
+            text: qsTr("Reading your card...")
             color: root.mediumTextColor
             font.weight: Font.Normal
             font.pixelSize: 36

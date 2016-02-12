@@ -15,7 +15,7 @@ Screen  {
         anchors.fill: parent
 
         Text {
-            text: "Pay your parking fee here"
+            text: qsTr("Pay your parking fee here")
             color: root.mediumTextColor
             font.weight: Font.Bold
             font.pixelSize: 44
@@ -23,7 +23,7 @@ Screen  {
         }
 
         Text {
-            text: "Select Language"
+            text: qsTr("Select Language")
             color: root.mediumTextColor
             font.weight: Font.Normal
             font.pixelSize: 30

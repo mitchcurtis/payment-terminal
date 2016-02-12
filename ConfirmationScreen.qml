@@ -30,7 +30,7 @@ Screen  {
         spacing: 0
 
         Text {
-            text: "Payment successful. Thank you!"
+            text: qsTr("Payment successful. Thank you!")
             color: "#80c342"
             wrapMode: Text.Wrap
             font.pixelSize: 44
@@ -48,7 +48,7 @@ Screen  {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 Text {
-                    text: "Vehicle:"
+                    text: qsTr("Vehicle:")
                     color: root.mediumTextColor
                     wrapMode: Text.Wrap
                     font.pixelSize: 30
@@ -68,7 +68,7 @@ Screen  {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 Text {
-                    text: "Amount paid:"
+                    text: qsTr("Amount paid:")
                     color: root.mediumTextColor
                     wrapMode: Text.Wrap
                     font.pixelSize: 30
@@ -88,7 +88,7 @@ Screen  {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 Text {
-                    text: "Parking place:"
+                    text: qsTr("Parking place:")
                     color: root.mediumTextColor
                     wrapMode: Text.Wrap
                     font.pixelSize: 30

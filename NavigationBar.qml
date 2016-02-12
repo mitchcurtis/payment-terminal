@@ -43,7 +43,7 @@ Item {
                     y: backButton.topPadding
                     width: backButton.availableWidth
                     height: backButton.availableHeight
-                    text: "Back"
+                    text: qsTr("Back")
                     font.pixelSize: 30
                     color: "#ffffff"
                     horizontalAlignment: Text.AlignHCenter
@@ -73,7 +73,7 @@ Item {
                     height: quitButton.availableHeight
 
                     Text {
-                        text: "Quit"
+                        text: qsTr("Quit")
                         font.pixelSize: 30
                         color: "#ffffff"
                         horizontalAlignment: Text.AlignHCenter

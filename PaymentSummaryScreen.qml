@@ -26,7 +26,7 @@ Screen {
                 spacing: 0
 
                 Text {
-                    text: "Pay for the vehicle:"
+                    text: qsTr("Pay for the vehicle:")
                     color: root.mediumTextColor
                     font.pixelSize: 24
                 }
@@ -42,15 +42,18 @@ Screen {
                 spacing: 0
 
                 Text {
-                    text: "Parking time"
+                    text: qsTr("Parking time")
                     color: root.mediumTextColor
                     font.pixelSize: 24
                 }
 
                 Text {
-                    text: Math.floor(customerData.minutesParked / 60) + "h " + (customerData.minutesParked % 60).toFixed(0) + "m"
+                    text: qsTr("%L1h %L2m").arg(hoursParked).arg(minutesParked)
                     font.pixelSize: 24
                     font.weight: Font.Normal
+
+                    readonly property int hoursParked: Math.floor(customerData.minutesParked / 60)
+                    readonly property int minutesParked: (customerData.minutesParked % 60).toFixed(0)
                 }
             }
 
@@ -58,20 +61,20 @@ Screen {
                 spacing: 0
 
                 Text {
-                    text: "Amount to pay"
+                    text: qsTr("Amount to pay")
                     color: root.mediumTextColor
                     font.pixelSize: 24
                 }
 
                 Text {
-                    text: customerData.paymentAmount + " €"
+                    text: qsTr("%L1 €").arg(customerData.paymentAmount)
                     font.pixelSize: 48
                     font.weight: Font.Normal
                 }
             }
 
             Text {
-                text: "We accept credit card payments only"
+                text: qsTr("We accept credit card payments only")
                 color: "#80c342"
                 font.pixelSize: 24
             }
@@ -88,7 +91,7 @@ Screen {
         onClicked: root.StackView.view.push("qrc:/CardPromptScreen.qml", { customerData: root.customerData })
 
         label: Text {
-            text: "Pay Now"
+            text: qsTr("Pay Now")
             font.pixelSize: 28
             font.weight: Font.Normal
             color: "#fff"

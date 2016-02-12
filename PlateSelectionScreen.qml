@@ -12,7 +12,7 @@ Screen {
 
     Text {
         id: instructionText
-        text: "Select your license plate number:"
+        text: qsTr("Select your license plate number:")
         color: root.mediumTextColor
         font.weight: Font.Bold
         font.pixelSize: 44
