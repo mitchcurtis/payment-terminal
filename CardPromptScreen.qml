@@ -27,7 +27,7 @@ Screen {
         spacing: 20
 
         Text {
-            text: qsTr("Paying ") + customerData.paymentAmount + " €"
+            text: qsTr("Paying %L1 €").arg(customerData.paymentAmount)
             color: root.mediumTextColor
             wrapMode: Text.Wrap
             font.weight: Font.Normal

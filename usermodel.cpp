@@ -1,5 +1,6 @@
 #include "usermodel.h"
 
+#include <QCoreApplication>
 #include <QDebug>
 
 #include "azurebackend.h"
@@ -11,7 +12,8 @@ enum Roles
     ParkingSpotNumber
 };
 
-UserModel::UserModel(bool offlineMode)
+UserModel::UserModel(bool offlineMode) :
+    mTranslator(0)
 {
     if (offlineMode)
         mBackend = new OfflineBackend(this);
@@ -73,6 +75,48 @@ void UserModel::addUser(const QString &licensePlateNumber, int parkingSpotNumber
     userData.setParkingSpotNumber(parkingSpotNumber);
     mUsers.append(userData);
     endInsertRows();
+}
+
+QString UserModel::language() const
+{
+    return mLanguage;
+}
+
+void UserModel::setLanguage(const QString &language)
+{
+    if (language == mLanguage)
+        return;
+
+    if (language != QLatin1String("en_GB") && language != QLatin1String("de_DE")) {
+        qWarning() << "Only en_GB and de_DE are supported locales";
+        return;
+    }
+
+    QLocale locale(language);
+
+    if (mTranslator)
+        QCoreApplication::removeTranslator(mTranslator);
+    else
+        mTranslator = new QTranslator(this);
+
+    // If the language is English, it's enough just to remove any existing translator.
+    if (language != QLatin1String("en_GB")) {
+        if (!mTranslator->load(locale, QStringLiteral("payment-terminal"), QStringLiteral("_"), QStringLiteral(":/translations"))) {
+            qWarning() << "Failed to load translation for language" << language;
+            return;
+        }
+
+        if (!QCoreApplication::installTranslator(mTranslator)) {
+            qWarning() << "Failed to install translator for language" << language;
+            return;
+        }
+    }
+
+    mLanguage = language;
+
+    QLocale::setDefault(locale);
+
+    emit languageChanged();
 }
 
 void UserModel::onLicensePlateAdded(const QString &licensePlateNumber, int parkingSpotNumber)

@@ -63,7 +63,10 @@ Screen  {
                 MouseArea {
                     id: englishMouseArea
                     anchors.fill: parent
-                    onClicked: root.StackView.view.push("qrc:/PlateSelectionScreen.qml")
+                    onClicked: {
+                        userModel.language = "en_GB";
+                        root.StackView.view.push("qrc:/PlateSelectionScreen.qml");
+                    }
                 }
             }
 
@@ -96,7 +99,10 @@ Screen  {
                 MouseArea {
                     id: deutschMouseArea
                     anchors.fill: parent
-                    onClicked: root.StackView.view.push("qrc:/PlateSelectionScreen.qml")
+                    onClicked: {
+                        userModel.language = "de_DE";
+                        root.StackView.view.push("qrc:/PlateSelectionScreen.qml");
+                    }
                 }
             }
         }

@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     usermodel.cpp
 
 RESOURCES += qml.qrc \
-    images.qrc
+    images.qrc \
+    translations.qrc
 
 lupdate_only {
     SOURCES = *.qml
