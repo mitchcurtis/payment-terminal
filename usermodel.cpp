@@ -109,6 +109,7 @@ void UserModel::onParkingSpotAssigned(const QString &licensePlateNumber, int par
     int index = indexOf(licensePlateNumber);
     if (index == -1) {
         addUser(licensePlateNumber, parkingSpotNumber);
+        index = mUsers.size() - 1;
     }
 
     mUsers[index].setParkingSpotNumber(parkingSpotNumber);
