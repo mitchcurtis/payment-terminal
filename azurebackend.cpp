@@ -4,11 +4,6 @@
 
 #include "iothubtransporthttp.h"
 
-// TODO: should probably be configurable via app args, but for now they will be hard-coded for each device build.
-#define DEVICE_ID "payservice1"
-#define DEV_ID "5"
-#define SHARED_ACCESS_KEY "MpCjmtTGul5pga/i9zHct9erEyvHS7kIcWxjxd+UgGI="
-
 static IOTHUBMESSAGE_DISPOSITION_RESULT receiveMessageCallback(IOTHUB_MESSAGE_HANDLE message, void* userData)
 {
     AzureBackend* backend = (AzureBackend*)userData;
@@ -23,9 +18,11 @@ static IOTHUBMESSAGE_DISPOSITION_RESULT receiveMessageCallback(IOTHUB_MESSAGE_HA
     return IOTHUBMESSAGE_ACCEPTED;
 }
 
-AzureBackend::AzureBackend(QObject *parent) :
+AzureBackend::AzureBackend(QObject *parent, const QString &connectionString, const QString &devId) :
     AbstractBackend(parent),
-    mIotHubClientHandle(0)
+    mIotHubClientHandle(0),
+    mConnectionString(connectionString),
+    mDevId(devId)
 {
 }
 
@@ -37,8 +34,7 @@ AzureBackend::~AzureBackend()
 
 void AzureBackend::initialize()
 {
-    static const char *connectionString = "HostName=cloudparkingdemoiothub.azure-devices.net;DeviceId=" DEVICE_ID ";SharedAccessKey=" SHARED_ACCESS_KEY;
-    mIotHubClientHandle = IoTHubClient_CreateFromConnectionString(connectionString, HTTP_Protocol);
+    mIotHubClientHandle = IoTHubClient_CreateFromConnectionString(qPrintable(mConnectionString), HTTP_Protocol);
 
     const int minimumPollingTime = 1;
     if (IoTHubClient_SetOption(mIotHubClientHandle, "MinimumPollingTime", &minimumPollingTime) != IOTHUB_CLIENT_OK) {
@@ -48,17 +44,17 @@ void AzureBackend::initialize()
 
     IoTHubClient_SetMessageCallback(mIotHubClientHandle, receiveMessageCallback, this);
 
-    sendMessage(QLatin1String("ONL,devid=" DEV_ID));
+    sendMessage(QString::fromLatin1("ONL,devid=%1").arg(mDevId));
 }
 
 void AzureBackend::requestPaymentData(const QString &licensePlateNumber)
 {
-    sendMessage(QLatin1String("PRQ,devid=" DEV_ID ";lp=") + licensePlateNumber);
+    sendMessage(QString::fromLatin1("PRQ,devid=%1;lp=%2").arg(mDevId).arg(licensePlateNumber));
 }
 
 void AzureBackend::paymentAccepted(const QString &licensePlateNumber)
 {
-    sendMessage(QLatin1String("PAC,devid=" DEV_ID ";lp=") + licensePlateNumber);
+    sendMessage(QString::fromLatin1("PAC,devid=%1;lp=%2").arg(mDevId).arg(licensePlateNumber));
 }
 
 enum MessageType

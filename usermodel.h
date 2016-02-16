@@ -16,7 +16,7 @@ class UserModel : public QAbstractListModel
     Q_PROPERTY(QString language READ language WRITE setLanguage NOTIFY languageChanged FINAL)
 
 public:
-    UserModel(bool offlineMode);
+    UserModel(const QString &connectionString, const QString &devId);
     ~UserModel();
 
     QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;

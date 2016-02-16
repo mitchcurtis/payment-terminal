@@ -12,13 +12,13 @@ enum Roles
     ParkingSpotNumber
 };
 
-UserModel::UserModel(bool offlineMode) :
+UserModel::UserModel(const QString &connectionString, const QString &devId) :
     mTranslator(0)
 {
-    if (offlineMode)
+    if (connectionString.isEmpty() || devId.isEmpty())
         mBackend = new OfflineBackend(this);
     else
-        mBackend = new AzureBackend(this);
+        mBackend = new AzureBackend(this, connectionString, devId);
 
     connect(mBackend, &AbstractBackend::licensePlateAdded, this, &UserModel::onLicensePlateAdded);
     connect(mBackend, &AbstractBackend::licensePlateRemoved, this, &UserModel::onLicensePlateRemoved);

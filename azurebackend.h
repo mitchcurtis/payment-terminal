@@ -10,7 +10,7 @@ class AzureBackend : public AbstractBackend
     Q_OBJECT
 
 public:
-    AzureBackend(QObject *parent = 0);
+    AzureBackend(QObject *parent, const QString &connectionString, const QString &devId);
     ~AzureBackend();
 
     void initialize() Q_DECL_OVERRIDE;
@@ -24,6 +24,8 @@ private:
     void sendMessage(const QString &message);
 
     IOTHUB_CLIENT_HANDLE mIotHubClientHandle;
+    QString mConnectionString;
+    QString mDevId;
 };
 
 #endif // AZUREBACKEND_H
